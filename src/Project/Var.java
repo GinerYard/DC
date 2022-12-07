@@ -3,8 +3,18 @@ package Project;
 import java.util.ArrayList;
 
 public class Var {
-    public static int flagdo;
+    public static int x0;
+    public static int y0;
+    public static int d;
+    private static int flagdo;
 
+    public static void setFlagdo(int flagdo) {
+        Var.flagdo = flagdo;
+    }
+
+    public static int getFlagdo() {
+        return flagdo;
+    }
 
     private static int mode;
 

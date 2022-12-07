@@ -14,27 +14,22 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public static JFrame frame = new JFrame("HelloWorldSwing");
-    public static JPanel p = new JPanel(new GridLayout(8, 4));
-    public static JPanel pp = new JPanel();
-    public static JPanel all = new JPanel(new BorderLayout());
-    public static JPanel[][] grids = new JPanel[8][4];
-    public static JLabel[][] labels = new JLabel[8][4];
+    public static int round;
+    public static int c;
+    public static int n;
+    public static int k;
 
-    public static void redraw(int[][] board, int[][] state) {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 4; j++) {
-                if(state[i][j] == 0) {
-                    labels[i][j].setText("0");
-                } else {
-                    labels[i][j].setText(String.valueOf(board[i][j]));
-                }
-            }
-        }
-    }
+    public static JButton startGame = new JButton();
+    public static JButton loadGame = new JButton();
+    public static JButton user = new JButton();
+    public static JButton rank = new JButton();
+    public static JButton exit = new JButton();
 
-
+    public static JButton startGameLocal = new JButton();
+    public static JButton startGameAI = new JButton();
+    public static JButton startGameNet = new JButton();
     public static void main(String[] args) throws IOException {
+
 
 //        JFrame frame = new JFrame();
 //        new Thread(() -> {
@@ -42,56 +37,11 @@ public class Menu {
 //            s.nextLine();
 ////            MainGameAI.method();
 //        }).start();
-        SwingUtilities.invokeLater(() -> {
-            JFrame.setDefaultLookAndFeelDecorated(true);
 
-            // 创建及设置窗口
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            // 显示窗口
-            frame.pack();
-            frame.setVisible(true);
-            p.setSize(640, 480);
-            frame.setSize(640, 480);
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 4; j++) {
-                    JPanel t = new JPanel();
-                    int finalI = i;
-                    int finalJ = j;
-                    t.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            super.mouseClicked(e);
-                            View.method(finalI, finalJ);
-                        }
-                    });
-                    p.add(t);
-                    t.setBorder(new LineBorder(Color.black));
-                    t.setVisible(true);
-                    p.setVisible(true);
-                    grids[i][j] = t;
-
-                    JLabel l = new JLabel();
-                    labels[i][j] = l;
-                    t.add(l);
-                }
-            }
-//            button.addActionListener((e) -> {
-//                System.out.println("clicked");
-//            });
-            JButton b = new JButton("AAA");
-            pp.add(b);
-            b.addActionListener(e -> {
-                System.out.println("AAAA");
-            });
-            all.add(p, "North");
-            all.add(pp, "South");
-            frame.add(all);
-        });
 //        frame.
         //-----------------------------------------------------------
-        int round = 0;
-        int c = 0;
+        round = 0;
+        c = 0;
         Scanner input = new Scanner(System.in);
         int[][] board = new int[8][4];
         int[][] state = new int[8][4];
@@ -102,11 +52,10 @@ public class Menu {
         Var clock = new Var();
         clock.setClock(-1);
         mode.setMode(0);
-        int n = 100;
-        if (n == 100) {
-            System.out.println("欢迎游玩纯纯摆烂人摸鱼制作的小成本翻棋！");
-        }
+        View.createView(board,state,BL,SL);
+        System.out.println("欢迎游玩纯纯摆烂人摸鱼制作的小成本翻棋！");
         do {
+            System.out.println("请选择模式");
             System.out.println("0 开始游戏");
             System.out.println("1 加载棋盘");
             System.out.println("2 用户信息");
@@ -115,21 +64,16 @@ public class Menu {
             System.out.println("10 人机对战");
             n = input.nextInt();
             if (n == 0) {
-                Start.StartGame(board, state, pub, mode, BL, SL, round, c);
+                Start.StartGameUI(board, state,mode, BL, SL);
             }
             if (n == 1) {
-                Start.LoadGame(board, state, pub, mode, BL, SL, round, c);
+                Start.LoadGame(BL, SL);
             }
             if (n == 10) {
                 System.out.println("0 简单模式");
                 System.out.println("1 困难模式");
-                int k = input.nextInt();
-                if (k == 0) {
-                    Start.StartGameAI(board, state, pub, mode, BL, SL, round, c, clock);
-                }
-                if (k == 1) {
-                    Start.StartGameAIHard(board, state, pub, mode, BL, SL, round, c, clock);
-                }
+                k = input.nextInt();
+                Start.StartGameAI(board, state, pub, mode, BL, SL, round, c, clock);
             }
             if (n == 2) {
                 User.showUser(clock);
@@ -137,6 +81,9 @@ public class Menu {
             if (n == -1) {
                 System.exit(0);
             }
-        } while (n != -1);
+            if (n == 11) {
+                Server.startServer(board,state,BL,SL);
+            }
+        } while (true);
     }
 }

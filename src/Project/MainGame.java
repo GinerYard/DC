@@ -87,7 +87,7 @@ public class MainGame {
                     System.out.println("游戏即将重新开始...");
                     round = 2;
                     c = 0;
-                    Initializer.Init(board,state,pub,BL,SL);
+                    Initializer.Init(board,state,BL,SL);
                     flagdo.setFlagdo(1);
                     continue;
                 }
@@ -147,7 +147,7 @@ public class MainGame {
                             state[i][j] = SL.get(round - 2)[i][j];
                         }
                     }
-                    Monitor_NM.nm(board, state, pub);
+                    Monitor_NM.nm(board, state);
                     flagdo.setFlagdo(1);
 
                     continue;
@@ -201,10 +201,10 @@ public class MainGame {
 
             if (c != 0) {
                 if (mode.getMode() == 0) {
-                    Monitor_NM.nm(board, state, pub);
+                    Monitor_NM.nm(board, state);
                 }
                 if (mode.getMode() == 1) {
-                    Monitor_CM.cm(board, state, pub);
+                    Monitor_CM.cm(board, state);
                 }
                 System.out.printf("红色方的分数为：%d\n", ScoreDetector.scoreRed(board));
                 System.out.printf("黑色方的分数为：%d\n", ScoreDetector.scoreBlack(board));

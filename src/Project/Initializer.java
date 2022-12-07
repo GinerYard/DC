@@ -5,7 +5,7 @@ import java.util.Random;
 
 class Initializer {
 
-    public static void Init(int[][] board, int[][] state, int[][] pub, ArrayList<int[][]> BL,ArrayList<int[][]> SL) {
+    public static void Init(int[][] board, int[][] state, ArrayList<int[][]> BL,ArrayList<int[][]> SL) {
         //随机数组
         int[] random = new int[32];
         random[0] = 1;
@@ -55,10 +55,10 @@ class Initializer {
         //3.初始化公示棋盘
 
         if (Var.getMode() == 0) {
-            Monitor_NM.nm(board, state, pub);
+            Monitor_NM.nm(board, state);
         }
         if (Var.getMode() == 1) {
-            Monitor_CM.cm(board, state, pub);
+            Monitor_CM.cm(board, state);
         }
 
         //4.初始化分数

@@ -3,7 +3,7 @@ package Project;
 import java.util.Random;
 
 public class AI {
-    public static void randomChoose(int[][] board, int[][] state, int c) {
+    public static void randomChoose(int[][] board, int[][] state) {
         int[] v = {0, 1, 2, 3, 4, 5, 6, 7};
         int[] h = {0, 1, 2, 3};
         Random r1 = new Random();
@@ -25,7 +25,7 @@ public class AI {
         define:
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 4; j++) {
-                if (randomChooseJudge(v[i], h[j], board, state, c)) {
+                if (randomChooseJudge(v[i], h[j], board, state)) {
                     x = v[i];
                     y = h[j];
                     break define;
@@ -45,7 +45,7 @@ public class AI {
     }
 
 
-    public static boolean randomChooseJudge(int x, int y, int[][] board, int[][] state, int c) {
+    public static boolean randomChooseJudge(int x, int y, int[][] board, int[][] state) {
         boolean r = false;
         int n = 0;
         if (state[x][y] == 0) {
@@ -69,7 +69,7 @@ public class AI {
                 }
             }
         }
-        if (board[x][y] * c > 0) {
+        if (board[x][y] * Menu.c > 0) {
             n = 0;
         }
         if (n == 1) {
@@ -187,15 +187,15 @@ public class AI {
         return s;
     }
 
-    public static void AIChoose(int[][] board, int[][] state, int c) {
+    public static void AIChoose(int[][] board, int[][] state) {
         int[][] score = new int[8][4];
         int s0 = 0;
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 3; j++) {
-                if (!randomChooseJudge(i, j, board, state, c)) {
+                if (!randomChooseJudge(i, j, board, state)) {
                     score[i][j] = -100;
                 }
-                if (randomChooseJudge(i, j, board, state, c)) {
+                if (randomChooseJudge(i, j, board, state)) {
                     score[i][j] = calculateScore(i, j, board, state);
                     s0 = Math.max(s0, calculateScore(i, j, board, state));
                 }

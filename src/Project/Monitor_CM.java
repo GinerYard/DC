@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 class Monitor_CM {
     //在作弊模式下，除了公示棋盘、分数、回合和先后手以外，玩家输入要查看的未翻面棋子时将公布棋子类型
-    static void cm(int[][] board, int[][] state, int[][] pub) {
+    static void cm(int[][] board, int[][] state) {
         Scanner input = new Scanner(System.in);
         int[] num = new int[14];//将士象车马卒炮
         for(int i = 0;i<7;i++){
@@ -32,6 +32,7 @@ class Monitor_CM {
                 }
             }
         }
+        int[][] pub = new int[8][4];
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 4; j++) {

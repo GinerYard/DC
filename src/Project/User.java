@@ -1,6 +1,7 @@
 package Project;
 
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,6 +13,12 @@ public class User {
     static Var user = new Var();
     static Var password = new Var();
     static Var ensurePassword = new Var();
+
+    public static JButton login = new JButton();
+    public static JButton register = new JButton();
+    public static JButton quitLogin = new JButton();
+    public static JButton showWinningRate = new JButton();
+    public static JButton back = new JButton();
 
 
 

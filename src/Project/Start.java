@@ -1,5 +1,8 @@
 package Project;
 
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,25 +11,32 @@ class Start {
     //给玩家选择：新游戏、加载棋盘、退出游戏三个选项，若玩家选择新游戏或加载棋盘，给玩家选择：NM或CM两个选项
     public static void StartGame(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL,int round,int c) {
         mode(mode);
-        Initializer.Init(board, state, pub, BL, SL);
+        Initializer.Init(board, state, BL, SL);
         round = 2;
-        Menu.redraw(board, state);
-        MainGame.maingame(board, state, pub, BL, SL, mode,round,c);
+    }
+    public static void StartGameUI(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+
+        mode(mode);
+        Initializer.Init(board, state, BL, SL);
+        Menu.c = 0;
+        Menu.round = 2;
+        Var.d = 1;
+        View.frame.setVisible(true);
+        View.textArea.setText(null);
+        View.redraw(board, state);
     }
     public static void StartGameAI(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL,int round,int c,Var clock) {
-        mode(mode);
-        Initializer.Init(board, state, pub, BL, SL);
-        round = 2;
-        MainGameAI.maingameAI(board, state, pub, BL, SL, mode,round,c,clock);
-    }
-    public static void StartGameAIHard(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL,int round,int c,Var clock) {
-        mode(mode);
-        Initializer.Init(board, state, pub, BL, SL);
-        round = 2;
-        MainGameAIHard.maingameAIHard(board, state, pub, BL, SL, mode,round,c,clock);
+        Initializer.Init(board, state, BL, SL);
+        Menu.c = 0;
+        Menu.round = 2;
+        Var.d = 1;
+        View.frame.setVisible(true);
+        View.textArea.setText(null);
+        View.redraw(board, state);
     }
 
-    public static void LoadGame(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL, int round, int c) {
+
+    public static void LoadGame(ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
         int k = 0;
         ArrayList<int[][]> L = SaveLoad.load(k);
         if(k==1){
@@ -43,17 +53,20 @@ class Start {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 4; j++) {
                     if (S0[i][j] == 1) {
-                        c = BL.get(l)[i][j];
+                        Menu.c = BL.get(l)[i][j];
                     }
                 }
             }
         }
-        round = BL.size() + 1;
-        board = BL.get(BL.size() - 1);
-        state = SL.get(SL.size() - 1);
+        Menu.round = BL.size() + 1;
+        int[][] board = BL.get(BL.size() - 1);
+        int[][] state = SL.get(SL.size() - 1);
+        Var mode = new Var();
         mode(mode);
-        Monitor_NM.nm(board, state, pub);
-        MainGame.maingame(board, state, pub, BL, SL, mode,round,c);
+        Monitor_NM.nm(board, state);
+        Var.d = 1;
+        View.frame.setVisible(true);
+        View.redraw(board, state);
     }
 
     public static void mode(Var mode) {

@@ -2,14 +2,16 @@ package Project;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class MainGameUI {
+public class MainGameClient {
     boolean ai_first, ai_second;
 
 
 
-    public static void method(int x, int y, int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+    public static void methodClient(int x, int y, int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+        if(Menu.round%2==1){
+            return;
+        }
         if (Var.d == 1) {
             if(Menu.round == 2){
                 View.textArea.append("第1回合开始");
@@ -121,6 +123,7 @@ public class MainGameUI {
                 System.out.printf("第%d回合开始\n", Menu.round / 2);
                 View.textArea.append("\n第"+Menu.round/2+"回合开始");
             }
+
         }
         if (!DrawJudge.dj(board, state, Menu.c, Menu.round)) {
             JOptionPane.showMessageDialog(null, "游戏结束，双方平局", "无棋可走", JOptionPane.OK_OPTION);

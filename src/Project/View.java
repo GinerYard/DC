@@ -1,41 +1,286 @@
 package Project;
 
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import java.util.Scanner;
+
 public class View {
-    public static void method(int x,int y,int[][] board,int[][] state,int round, int c, Var flagdo){
-        if ((x != 0 && x != 1 && x != 2 && x != 3 && x != 4 && x != 5 && x != 6 && x != 7) || (y != 0 && y != 1 && y != 2 && y != 3)) {
-            System.out.println("这不是棋盘中的位置！");
-            Var.flagdo = 1;
-        }
-        if (board[x][y] == 100) {
-           return;
-        }
-        if (board[x][y] != 100 && state[x][y] == 1) {
-            if (!ColorJudge.cj(x, y, c, round, board)) {
-                System.out.println("你必须选择属于你颜色的棋子或是翻面的棋子！");
-                Var.flagdo = 1;
-            }
-            if (ColorJudge.cj(x, y, c, round, board)) {
-                if (Math.abs(board[x][y]) != 7 && board[x][y] != 100) {
-                    MoveOperator.move(x, y, board, state, flagdo);
+
+    public static JFrame frame = new JFrame("翻翻棋");
+    public static JPanel p = new JPanel(new GridLayout(8, 4));
+    public static JPanel button = new JPanel();
+
+    public static JButton endGame = new JButton("退出游戏");
+    public static JButton b = new JButton("结束游戏");
+    public static JButton r = new JButton("悔棋");
+    public static JButton rs = new JButton("重新开始");
+    public static JButton c = new JButton("切换为作弊模式");
+
+    public static JPanel all = new JPanel(new BorderLayout());
+    public static JPanel[][] grids = new JPanel[8][4];
+    public static JLabel[][] labels = new JLabel[8][4];
+    public static int cheat;
+    public static JTextArea textArea = new JTextArea();
+
+    public static void createView(int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+        Var.x0 = -1;
+        Var.y0 = -1;
+        cheat = -1;
+
+        SwingUtilities.invokeLater(() -> {
+            JFrame.setDefaultLookAndFeelDecorated(true);
+
+            // 创建及设置窗口
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            button.setLayout(new FlowLayout(FlowLayout.LEFT));
+            //创建一个文本框
+
+              // 自动换行
+            textArea.setLineWrap(true);
+              // 设置字体
+            textArea.setFont(new Font(null, Font.PLAIN, 18));
+            JScrollPane jScrollPane = new JScrollPane(
+                    textArea,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+            );
+
+            // 显示窗口
+            frame.pack();
+            frame.setVisible(false);
+            p.setSize(640, 480);
+            frame.setSize(640, 480);
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 4; j++) {
+                    JPanel t = new JPanel();
+                    Color c = new Color(255,255,255);
+                    t.setBackground(c);
+                    int finalI = i;
+                    int finalJ = j;
+                    t.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            if(Menu.n==11){
+                                MainGameClient.methodClient(finalI,finalJ,board,state,BL,SL);
+                                MainGameClient.methodClient(finalI,finalJ,board,state,BL,SL);
+                            }
+                            if (e.isMetaDown()) {
+                                if (cheat == 1) {
+                                    textArea.append("该位置的棋子是"+(board[finalI][finalJ])+"\n");
+                                }
+                            }
+                            if (Menu.n == 0 && !e.isMetaDown()) {
+                                MainGameUI.method(finalI, finalJ, board, state, BL, SL);
+                            }
+                            if (Menu.n == 10 && !e.isMetaDown()) {
+                                MainGameAI.method(finalI, finalJ, board, state, BL, SL);
+                                MainGameAI.method(-1, -1, board, state, BL, SL);
+                            }
+                            if(Var.d == 2 || Var.d == 3){
+                                t.setBackground(Color.GRAY);
+                            }
+                        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            Color c = new Color(0,0,255);
+                            t.setBackground(c);
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            Color c = new Color(255,255,255);
+                            t.setBackground(c);
+                            if(Var.x0+Var.y0>=0) {
+                                grids[Var.x0][Var.y0].setBackground(Color.GRAY);
+                                if(Var.d==2){
+                                    for(int i = 0; i < 8;i++){
+                                        for(int j = 0;j<4;j++){
+                                            if(MoveJudge.mj(Var.x0,Var.y0,i,j,board,state)){
+                                                grids[i][j].setBackground(Color.YELLOW);
+                                            }
+                                        }
+                                    }
+                                }
+                                if(Var.d==3){
+                                    for(int i = 0; i < 8;i++){
+                                        for(int j = 0;j<4;j++){
+                                            if(CannonJudge.cj(Var.x0,Var.y0,i,j,board,state)){
+                                                grids[i][j].setBackground(Color.YELLOW);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    });
+                    p.add(t);
+                    t.setBorder(new LineBorder(Color.black));
+                    t.setVisible(true);
+                    p.setVisible(true);
+                    grids[i][j] = t;
+
+                    JLabel l = new JLabel();
+                    labels[i][j] = l;
+                    t.add(l);
+
                 }
-                if (Math.abs(board[x][y]) == 7) {
-                    CannonOperator.cannon(x, y, board, state, flagdo);
+            }
+//            button.addActionListener((e) -> {
+//                System.out.println("clicked");
+//            });
+
+            button.add(b);
+            b.addActionListener(e -> {
+                exit(BL, SL);
+            });
+            button.add(endGame);
+            endGame.addActionListener(e ->{
+                frame.setVisible(false);
+            });
+            endGame.setVisible(false);
+
+            button.add(r);
+            r.addActionListener(e -> {
+                regret(BL, SL, board, state);
+            });
+
+            button.add(rs);
+            rs.addActionListener(e -> {
+                restart(BL, SL, board, state);
+            });
+
+            button.add(c);
+            c.addActionListener(e -> {
+                if (cheat == -1) {
+                    c.setText("切换为普通模式");
+                }
+                if (cheat == 1) {
+                    c.setText("切换为作弊模式");
+                }
+                cheat = -cheat;
+            });
+            all.add(p, "North");
+            all.add(button, "South");
+            all.add(jScrollPane);
+            frame.add(all);
+        });
+    }
+
+    public static void redraw(int[][] board, int[][] state) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (state[i][j] == 0) {
+                    labels[i][j].setText("0");
+                } else {
+                    labels[i][j].setText(String.valueOf(board[i][j]));
                 }
             }
+
         }
-        if (state[x][y] == 0) {
-            TurnOperator.turn(x, y, state, flagdo);
-        }
-        if (round == 2) {
-            if (board[x][y] > 0) {
-                System.out.printf("先手是红色方\n");
+    }
+    public static void setBack(int x,int y){
+        for(int i = 0; i < 8;i++){
+            for(int j = 0;j<4;j++){
+                    grids[i][j].setBackground(Color.WHITE);
             }
-            if (board[x][y] < 0) {
-                System.out.printf("先手是黑色方\n");
-            }
-            c = board[x][y];
         }
-        Menu.redraw(board,state);
+    }
+
+
+
+
+
+    public static void regret(ArrayList<int[][]> BL, ArrayList<int[][]> SL, int[][] board, int[][] state) {
+        if (Menu.round == 2 || Menu.round == 3) {
+            System.out.println("你现在不能悔棋！");
+            return;
+        }
+        BL.remove(Menu.round - 2);
+        SL.remove(Menu.round - 2);
+        BL.remove(Menu.round - 3);
+        SL.remove(Menu.round - 3);
+        if (Menu.round == 4) {
+            Menu.c = 0;
+        }
+        Menu.round = Menu.round - 2;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 4; j++) {
+                board[i][j] = BL.get(Menu.round - 2)[i][j];
+                state[i][j] = SL.get(Menu.round - 2)[i][j];
+            }
+        }
+        Monitor_NM.nm(board, state);
+        redraw(board, state);
+    }
+
+    public static void restart(ArrayList<int[][]> BL, ArrayList<int[][]> SL, int[][] board, int[][] state) {
+        int userOption = JOptionPane.showConfirmDialog(null, "是否重新开始？", "重新开始", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (userOption == JOptionPane.OK_OPTION) {
+            System.out.println("游戏即将重新开始...");
+            Menu.round = 2;
+            Menu.c = 0;
+            Var.d = 1;
+            Initializer.Init(board, state, BL, SL);
+            redraw(board, state);
+        }
+    }
+
+    public static void exit(ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+        int userOption = JOptionPane.showConfirmDialog(null, "游戏结束，是否保存进度？", "结束游戏", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE);  //确认对话框
+//如果用户选择的是OK
+        if (userOption == JOptionPane.OK_OPTION) {
+            SaveLoad.save(BL, SL);
+        }
+        int userOption2 = JOptionPane.showConfirmDialog(null, "是否查看棋谱？", "结束游戏", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (userOption2 == JOptionPane.OK_OPTION) {
+            ShowBoardList.showList(BL, SL);
+        }
+        Var.d = 0;
+        View.b.setVisible(false);
+        View.r.setVisible(false);
+        View.rs.setVisible(false);
+        View.c.setVisible(false);
+        endGame.setVisible(true);
+    }
+
+    public static void draw(ArrayList<int[][]> BL, ArrayList<int[][]> SL, Var flagdo) {
+        Scanner input = new Scanner(System.in);
+        int x = 0;
+        int d = 0;
+        int e = 0;
+        if (x == 101 && d != -1) {
+            System.out.println("确定要和棋吗？对方玩家输入0以和棋，输入-1以拒绝和棋：");
+            d = input.nextInt();
+            if (d == 0) {
+                System.out.println("游戏结束，双方平局！输入0直接退出，输入1查看棋谱：");
+                e = input.nextInt();
+                if (e == 0) {
+                    return;
+                }
+                if (e == 1) {
+                    ShowBoardList.showList(BL, SL);
+                    return;
+                }
+            }
+            if (d == -1) {
+                System.out.println("对方玩家拒绝了和棋！");
+                flagdo.setFlagdo(1);
+
+            }
+        }
+        if (x == 101 && d == -1) {
+            System.out.println("对方拒绝和棋后，本回合内不能求和！");
+            flagdo.setFlagdo(1);
+
+        }
     }
 
 
