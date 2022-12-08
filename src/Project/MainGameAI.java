@@ -2,15 +2,15 @@ package Project;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MainGameAI {
     public static void method(int x, int y, int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
-        if(Menu.round%2==0) {
+        if(x==-1&&y==-1&& DarkChess.round%2==0){
+            return;
+        }
+        if(DarkChess.round%2==0) {
             if (Var.d == 1) {
-                if (Menu.round == 2) {
-                    View.textArea.append("第1回合开始");
-                }
+
                 if ((x != 0 && x != 1 && x != 2 && x != 3 && x != 4 && x != 5 && x != 6 && x != 7) || (y != 0 && y != 1 && y != 2 && y != 3)) {
                     System.out.println("这不是棋盘中的位置！");
                     return;
@@ -19,12 +19,12 @@ public class MainGameAI {
                     return;
                 }
                 if (board[x][y] != 100 && state[x][y] == 1) {
-                    if (!ColorJudge.cj(x, y, Menu.c, Menu.round, board)) {
+                    if (!ColorJudge.cj(x, y, DarkChess.c, DarkChess.round, board)) {
                         System.out.println("你必须选择属于你颜色的棋子或是翻面的棋子！");
                         View.textArea.append("\n你必须选择属于你颜色的棋子或是翻面的棋子！");
                         return;
                     }
-                    if (ColorJudge.cj(x, y, Menu.c, Menu.round, board)) {
+                    if (ColorJudge.cj(x, y, DarkChess.c, DarkChess.round, board)) {
                         if (Math.abs(board[x][y]) != 7 && board[x][y] != 100) {
                             Var.d = 2;
                             Var.x0 = x;
@@ -91,20 +91,20 @@ public class MainGameAI {
                 }
             }
         }
-        if(Menu.round % 2 == 1){
+        if(DarkChess.round % 2 == 1){
             System.out.println("AI正在思考...");
             View.textArea.append("\nAI正在思考...");
-            if(Menu.k==0) {
+            if(DarkChess.k==0) {
                 AI.randomChoose(board, state);
             }
-            if(Menu.k==1) {
+            if(DarkChess.k==1) {
                 AI.AIChoose(board, state);
             }
             System.out.println("AI已经完成操作");
             View.textArea.append("\nAI已经完成操作");
         }
         if (Var.d == 1) {
-            if (Menu.round == 2) {
+            if (DarkChess.round == 2) {
                 if (board[x][y] > 0) {
                     System.out.printf("先手是红色方\n");
                     View.textArea.append("\n先手是红色方");
@@ -113,9 +113,9 @@ public class MainGameAI {
                     System.out.printf("先手是黑色方\n");
                     View.textArea.append("\n先手是黑色方");
                 }
-                Menu.c = board[x][y];
+                DarkChess.c = board[x][y];
             }
-            if (Menu.c != 0) {
+            if (DarkChess.c != 0) {
                 Monitor_NM.nm(board, state);
             }
             int red =  ScoreDetector.scoreRed(board);
@@ -126,13 +126,13 @@ public class MainGameAI {
             View.textArea.append("\n黑色方的分数为:"+black);
             BoardList.setBoardlist(board, state, BL, SL);
             View.redraw(board, state);
-            Menu.round++;
-            if (Menu.round % 2 == 0) {
-                System.out.printf("第%d回合开始\n", Menu.round / 2);
-                View.textArea.append("\n第"+Menu.round/2+"回合开始");
+            DarkChess.round++;
+            if (DarkChess.round % 2 == 0) {
+                System.out.printf("第%d回合开始\n", DarkChess.round / 2);
+                View.textArea.append("\n第"+ DarkChess.round/2+"回合开始");
             }
         }
-        if (!DrawJudge.dj(board, state, Menu.c, Menu.round)) {
+        if (!DrawJudge.dj(board, state, DarkChess.c, DarkChess.round)) {
             JOptionPane.showMessageDialog(null, "游戏结束，双方平局", "无棋可走", JOptionPane.OK_OPTION);
             Var.d = 0;
             View.frame.setVisible(false);
@@ -143,6 +143,7 @@ public class MainGameAI {
             if (userOption2 == JOptionPane.OK_OPTION) {
                 ShowBoardList.showList(BL, SL);
             }
+            DarkChess.round = 2;
             View.b.setVisible(false);
             View.r.setVisible(false);
             View.rs.setVisible(false);
@@ -155,6 +156,7 @@ public class MainGameAI {
             if (userOption2 == JOptionPane.OK_OPTION) {
                 ShowBoardList.showList(BL, SL);
             }
+            DarkChess.round = 2;
             View.b.setVisible(false);
             View.r.setVisible(false);
             View.rs.setVisible(false);

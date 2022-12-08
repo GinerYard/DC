@@ -1,8 +1,5 @@
 package Project;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,20 +15,20 @@ class Start {
 
         mode(mode);
         Initializer.Init(board, state, BL, SL);
-        Menu.c = 0;
-        Menu.round = 2;
+        DarkChess.c = 0;
+        DarkChess.round = 2;
         Var.d = 1;
         View.frame.setVisible(true);
-        View.textArea.setText(null);
+        View.textArea.setText("第1回合开始");
         View.redraw(board, state);
     }
     public static void StartGameAI(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL,int round,int c,Var clock) {
         Initializer.Init(board, state, BL, SL);
-        Menu.c = 0;
-        Menu.round = 2;
+        DarkChess.c = 0;
+        DarkChess.round = 2;
         Var.d = 1;
         View.frame.setVisible(true);
-        View.textArea.setText(null);
+        View.textArea.setText("第1回合开始");
         View.redraw(board, state);
     }
 
@@ -53,12 +50,12 @@ class Start {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 4; j++) {
                     if (S0[i][j] == 1) {
-                        Menu.c = BL.get(l)[i][j];
+                        DarkChess.c = BL.get(l)[i][j];
                     }
                 }
             }
         }
-        Menu.round = BL.size() + 1;
+        DarkChess.round = BL.size() + 1;
         int[][] board = BL.get(BL.size() - 1);
         int[][] state = SL.get(SL.size() - 1);
         Var mode = new Var();

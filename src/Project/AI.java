@@ -69,7 +69,7 @@ public class AI {
                 }
             }
         }
-        if (board[x][y] * Menu.c > 0) {
+        if ((state[x][y]==1&&board[x][y] * DarkChess.c > 0)||(state[x][y]==1&&board[x][y]==100)) {
             n = 0;
         }
         if (n == 1) {
@@ -169,6 +169,19 @@ public class AI {
                     if (MoveJudge.mj(x, y, i, j, board, state) && board[i][j] != 100) {
                         s = Math.max(s,Score.score(board[i][j]));
                     }
+                    if (MoveJudge.mj(x, y, i, j, board, state) && board[i][j] == 100) {
+                        int[][] tM = new int[8][4];
+                        int t = 0;
+                        for(int x1 = 0; x1 < 8;x1++){
+                            for(int y1 = 0;y1<4;y1++){
+                                if(MoveJudge.mj(i,j,x1,y1,board,state)){
+                                    tM[x1][y1] = Score.score(board[x1][y1])/2;
+                                    t = Math.max(t,tM[x1][y1]);
+                                }
+                            }
+                        }
+                        s = Math.max(s,t);
+                    }
                 }
             }
         }
@@ -184,14 +197,15 @@ public class AI {
                 }
             }
         }
+
         return s;
     }
 
     public static void AIChoose(int[][] board, int[][] state) {
         int[][] score = new int[8][4];
         int s0 = 0;
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 4; j++) {
                 if (!randomChooseJudge(i, j, board, state)) {
                     score[i][j] = -100;
                 }
@@ -204,8 +218,8 @@ public class AI {
         int x = -1;
         int y = -1;
         define:
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 4; j++) {
                 if(score[i][j]==s0){
                     x = i;
                     y = j;
@@ -253,9 +267,9 @@ public class AI {
                         sM[i][j] = 5;
                         m = Math.max(m,5);
                     }
-                    if (CannonJudge.cj(x, y, i, j, board, state) && board[i][j] == 1) {
-                        sM[i][j] = Score.score(board[i][j]);
-                        m = Math.max(m,sM[i][j]+1);
+                    if (CannonJudge.cj(x, y, i, j, board, state) && state[i][j] == 1) {
+                        sM[i][j] = Score.score(board[i][j])+1;
+                        m = Math.max(m,sM[i][j]);
                     }
                 }
             }
@@ -271,8 +285,6 @@ public class AI {
                     }
                 }
             }
-            board[x1][y1]=board[x][y];
-            board[x][y]=100;
             int k = board[x1][y1];
             int s = state[x1][y1];
             board[x1][y1] = board[x][y];

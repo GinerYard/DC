@@ -2,7 +2,6 @@ package Project;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MainGameUI {
     boolean ai_first, ai_second;
@@ -11,9 +10,7 @@ public class MainGameUI {
 
     public static void method(int x, int y, int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
         if (Var.d == 1) {
-            if(Menu.round == 2){
-                View.textArea.append("第1回合开始");
-            }
+
             if ((x != 0 && x != 1 && x != 2 && x != 3 && x != 4 && x != 5 && x != 6 && x != 7) || (y != 0 && y != 1 && y != 2 && y != 3)) {
                 System.out.println("这不是棋盘中的位置！");
                 return;
@@ -22,12 +19,12 @@ public class MainGameUI {
                 return;
             }
             if (board[x][y] != 100 && state[x][y] == 1) {
-                if (!ColorJudge.cj(x, y, Menu.c, Menu.round, board)) {
+                if (!ColorJudge.cj(x, y, DarkChess.c, DarkChess.round, board)) {
                     System.out.println("你必须选择属于你颜色的棋子或是翻面的棋子！");
                     View.textArea.append("\n你必须选择属于你颜色的棋子或是翻面的棋子！");
                     return;
                 }
-                if (ColorJudge.cj(x, y, Menu.c, Menu.round, board)) {
+                if (ColorJudge.cj(x, y, DarkChess.c, DarkChess.round, board)) {
                     if (Math.abs(board[x][y]) != 7 && board[x][y] != 100) {
                         Var.d = 2;
 
@@ -96,7 +93,7 @@ public class MainGameUI {
             }
         }
         if (Var.d == 1) {
-            if (Menu.round == 2) {
+            if (DarkChess.round == 2) {
                 if (board[x][y] > 0) {
                     System.out.printf("先手是红色方\n");
                     View.textArea.append("\n先手是红色方");
@@ -105,9 +102,9 @@ public class MainGameUI {
                     System.out.printf("先手是黑色方\n");
                     View.textArea.append("\n先手是黑色方");
                 }
-                Menu.c = board[x][y];
+                DarkChess.c = board[x][y];
             }
-            if (Menu.c != 0) {
+            if (DarkChess.c != 0) {
                 Monitor_NM.nm(board, state);
             }
             System.out.printf("红色方的分数为：%d\n", ScoreDetector.scoreRed(board));
@@ -116,13 +113,13 @@ public class MainGameUI {
             View.textArea.append("\n黑色方的分数为:"+ScoreDetector.scoreRed(board));
             BoardList.setBoardlist(board, state, BL, SL);
             View.redraw(board, state);
-            Menu.round++;
-            if (Menu.round % 2 == 0) {
-                System.out.printf("第%d回合开始\n", Menu.round / 2);
-                View.textArea.append("\n第"+Menu.round/2+"回合开始");
+            DarkChess.round++;
+            if (DarkChess.round % 2 == 0) {
+                System.out.printf("第%d回合开始\n", DarkChess.round / 2);
+                View.textArea.append("\n第"+ DarkChess.round/2+"回合开始");
             }
         }
-        if (!DrawJudge.dj(board, state, Menu.c, Menu.round)) {
+        if (!DrawJudge.dj(board, state, DarkChess.c, DarkChess.round)) {
             JOptionPane.showMessageDialog(null, "游戏结束，双方平局", "无棋可走", JOptionPane.OK_OPTION);
             Var.d = 0;
             View.frame.setVisible(false);

@@ -1,18 +1,11 @@
 package Project;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
-public class Menu {
+public class DarkChess {
 
     public static int round;
     public static int c;
@@ -28,6 +21,7 @@ public class Menu {
     public static JButton startGameLocal = new JButton();
     public static JButton startGameAI = new JButton();
     public static JButton startGameNet = new JButton();
+
     public static void main(String[] args) throws IOException {
 
 
@@ -52,7 +46,7 @@ public class Menu {
         Var clock = new Var();
         clock.setClock(-1);
         mode.setMode(0);
-        View.createView(board,state,BL,SL);
+        View.createView(board, state, BL, SL);
         System.out.println("欢迎游玩纯纯摆烂人摸鱼制作的小成本翻棋！");
         do {
             System.out.println("请选择模式");
@@ -62,9 +56,10 @@ public class Menu {
             System.out.println("3 排行榜");
             System.out.println("-1 退出游戏");
             System.out.println("10 人机对战");
+            System.out.println("11 联网模式");
             n = input.nextInt();
             if (n == 0) {
-                Start.StartGameUI(board, state,mode, BL, SL);
+                Start.StartGameUI(board, state, mode, BL, SL);
             }
             if (n == 1) {
                 Start.LoadGame(BL, SL);
@@ -82,7 +77,7 @@ public class Menu {
                 System.exit(0);
             }
             if (n == 11) {
-                Server.startServer(board,state,BL,SL);
+                Server.startServer(board, state, BL, SL);
             }
         } while (true);
     }

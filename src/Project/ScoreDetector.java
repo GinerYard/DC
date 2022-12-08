@@ -1,6 +1,6 @@
 package Project;
 
-class ScoreDetector {
+public class ScoreDetector {
 
     //算红方的分数
     public static int scoreRed(int[][] board) {
