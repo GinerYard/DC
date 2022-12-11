@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class MainGameAI {
-    public static void method(int x, int y, int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+    public static void method(int x, int y, int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL){
         if(x==-1&&y==-1&& DarkChess.round%2==0){
             return;
         }
@@ -139,6 +139,12 @@ public class MainGameAI {
         }
         if (ScoreDetector.scoreRed(board) >= 60) {
             Var.d = 0;
+            if (DarkChess.round % 2 == 1 && Var.clock != -1) {
+                User.plusWinningRate();
+            }
+            if (DarkChess.round % 2 == 0 && Var.clock != -1) {
+                User.minusWinningRate();
+            }
             int userOption2 = JOptionPane.showConfirmDialog(null, "游戏结束，红色方胜利！是否查看棋谱？", "结束游戏", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (userOption2 == JOptionPane.OK_OPTION) {
                 ShowBoardList.showList(BL, SL);
@@ -152,6 +158,12 @@ public class MainGameAI {
         }
         if (ScoreDetector.scoreBlack(board) >= 60) {
             Var.d = 0;
+            if (DarkChess.round % 2 == 1 && Var.clock != -1) {
+                User.plusWinningRate();
+            }
+            if (DarkChess.round % 2 == 0 && Var.clock != -1) {
+                User.minusWinningRate();
+            }
             int userOption2 = JOptionPane.showConfirmDialog(null, "游戏结束，黑色方胜利！是否查看棋谱？", "结束游戏", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (userOption2 == JOptionPane.OK_OPTION) {
                 ShowBoardList.showList(BL, SL);

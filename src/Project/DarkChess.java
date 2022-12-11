@@ -43,12 +43,16 @@ public class DarkChess {
         ArrayList<int[][]> BL = new ArrayList<>();
         ArrayList<int[][]> SL = new ArrayList<>();
         Var mode = new Var();
-        Var clock = new Var();
-        clock.setClock(-1);
+        Var.clock=-1;
         mode.setMode(0);
         View.createView(board, state, BL, SL);
         System.out.println("欢迎游玩纯纯摆烂人摸鱼制作的小成本翻棋！");
         do {
+            //createView
+            //JButton:{
+            //mouseclicked:{
+            //n = 0 ;
+            //start();
             System.out.println("请选择模式");
             System.out.println("0 开始游戏");
             System.out.println("1 加载棋盘");
@@ -68,10 +72,10 @@ public class DarkChess {
                 System.out.println("0 简单模式");
                 System.out.println("1 困难模式");
                 k = input.nextInt();
-                Start.StartGameAI(board, state, pub, mode, BL, SL, round, c, clock);
+                Start.StartGameAI(board, state, pub, mode, BL, SL, round, c);
             }
             if (n == 2) {
-                User.showUser(clock);
+                User.showUser();
             }
             if (n == -1) {
                 System.exit(0);

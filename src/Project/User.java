@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static Project.Var.clock;
+
 public class User {
     static Var U = new Var();
     static Var P = new Var();
@@ -22,7 +24,7 @@ public class User {
 
 
 
-    public static void showUser(Var clock){
+    public static void showUser(){
         int flag = 0;
         Scanner input = new Scanner(System.in);
         ArrayList<String> U0 =  SaveLoad.loadU();
@@ -33,8 +35,8 @@ public class User {
         W.setW(W0);
         ArrayList<Integer> N0 =  SaveLoad.loadN();
         N.setN(N0);
-        if(clock.getClock()!=-1){
-            System.out.println("欢迎回来！"+U.getU().get(clock.getClock()));
+        if(clock!=-1){
+            System.out.println("欢迎回来！"+U.getU().get(clock));
         }
         System.out.println("0 登录");
         System.out.println("1 注册");
@@ -45,7 +47,7 @@ public class User {
         do {
             int n = input.nextInt();
             if (n == 0) {
-                login(clock);
+                login();
                 System.out.println("-1 返回");
                 System.out.println("2 退出登录");
                 System.out.println("3 显示胜率");
@@ -59,12 +61,12 @@ public class User {
                 flag = 1;
             }
             if (n == 2) {
-                clock.setClock(-1);
+                clock=-1;
                 System.out.println("退出登录成功！");
                 flag = 1;
             }
             if (n == 3) {
-                showWinningRate(clock);
+                showWinningRate();
                 flag = 1;
             }
             if (n == 4) {
@@ -120,7 +122,7 @@ public class User {
     }
 
 
-    public static void login(Var clock){
+    public static void login(){
         Scanner input = new Scanner((System.in));
         System.out.println("请输入您的用户名:");
         String t1 =  input.nextLine();
@@ -143,8 +145,8 @@ public class User {
             password.setPassword(t2);
             if (password.getPassword().equals(P.getP().get(n))) {
                 System.out.printf("登陆成功！欢迎%s！\n", user.getUser());
-                clock.setClock(n);
-                System.out.println(clock.getClock());
+                clock=n;
+                System.out.println(clock);
                 p=1;
             }
             if (!password.getPassword().equals(P.getP().get(n))) {
@@ -156,11 +158,11 @@ public class User {
         }
     }
 
-    public static void showWinningRate(Var clock){
-        if(clock.getClock()!=-1){
-            System.out.println("您的胜率为"+W.getW().get(clock.getClock()));
+    public static void showWinningRate(){
+        if(clock!=-1){
+            System.out.println("您的胜率为"+W.getW().get(clock));
         }
-        if(clock.getClock()==-1){
+        if(clock==-1){
             System.out.println("您还未登录！");
         }
     }
@@ -193,27 +195,27 @@ public class User {
     }
 
 
-    public static void plusWinningRate(Var clock){
-        int n = N.getN().get(clock.getClock());
+    public static void plusWinningRate(){
+        int n = N.getN().get(clock);
         ArrayList<Integer> N1 = N.getN();
-        N1.set(clock.getClock(), n+1);
+        N1.set(clock, n+1);
         N.setN(N1);
         ArrayList<Double> W1 = W.getW();
-        double w = W1.get(clock.getClock());
-        W1.set(clock.getClock(), (n*w+1)/(n+1));
+        double w = W1.get(clock);
+        W1.set(clock, (n*w+1)/(n+1));
         W.setW(W1);
         SaveLoad.saveN(N.getN());
         SaveLoad.saveW(W.getW());
     }
 
-    public static void minusWinningRate(Var clock){
-        int n = N.getN().get(clock.getClock());
+    public static void minusWinningRate(){
+        int n = N.getN().get(clock);
         ArrayList<Integer> N1 = N.getN();
-        N1.set(clock.getClock(), n+1);
+        N1.set(clock, n+1);
         N.setN(N1);
         ArrayList<Double> W1 = W.getW();
-        double w = W1.get(clock.getClock());
-        W1.set(clock.getClock(), (n*w)/(n+1));
+        double w = W1.get(clock);
+        W1.set(clock, (n*w)/(n+1));
         W.setW(W1);
         SaveLoad.saveN(N.getN());
         SaveLoad.saveW(W.getW());

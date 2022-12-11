@@ -96,8 +96,8 @@ public class View {
                                     MainGameUI.method(finalI, finalJ, board, state, BL, SL);
                                 }
                                 if (DarkChess.n == 10 && !e.isMetaDown()) {
-                                    MainGameAI.method(finalI, finalJ, board, state, BL, SL);
-                                    MainGameAI.method(-1, -1, board, state, BL, SL);
+                                        MainGameAI.method(finalI, finalJ, board, state, BL, SL);
+                                        MainGameAI.method(-1, -1, board, state, BL, SL);
                                 }
                                 if(Var.d == 2 || Var.d == 3){
                                     t.setBackground(Color.GRAY);

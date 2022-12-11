@@ -70,15 +70,11 @@ public class Var {
     }
 
 
-    private static int clock;
+    public static int clock;
 
-    public void setClock(int clock) {
-        this.clock = clock;
-    }
 
-    public int getClock() {
-        return clock;
-    }
+
+
 
     public void setUser(String user){
         this.user = user;

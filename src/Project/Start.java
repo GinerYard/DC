@@ -22,7 +22,7 @@ class Start {
         View.textArea.setText("第1回合开始");
         View.redraw(board, state);
     }
-    public static void StartGameAI(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL,int round,int c,Var clock) {
+    public static void StartGameAI(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL,int round,int c) {
         Initializer.Init(board, state, BL, SL);
         DarkChess.c = 0;
         DarkChess.round = 2;
