@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 class Start {
-    public static int global = 0;
+    public static int k = 0;
     //给玩家选择：新游戏、加载棋盘、退出游戏三个选项，若玩家选择新游戏或加载棋盘，给玩家选择：NM或CM两个选项
     public static void StartGame(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL,int round,int c) {
         mode(mode);
@@ -34,8 +34,8 @@ class Start {
 
 
     public static void LoadGame(ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
-        int k = 0;
-        ArrayList<int[][]> L = SaveLoad.load(k);
+        k = 0;
+        ArrayList<int[][]> L = SaveLoad.load();
         if(k==1){
             return;
         }
@@ -63,7 +63,13 @@ class Start {
         Monitor_NM.nm(board, state);
         Var.d = 1;
         View.frame.setVisible(true);
+        View.b.setVisible(true);
+        View.r.setVisible(true);
+        View.rs.setVisible(true);
+        View.c.setVisible(true);
+        View.endGame.setVisible(false);
         View.redraw(board, state);
+
     }
 
     public static void mode(Var mode) {

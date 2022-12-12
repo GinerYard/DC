@@ -1,5 +1,7 @@
 package Project;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -7,7 +9,15 @@ import java.util.Scanner;
 public class SaveLoad {
     public static void save(ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
         try {
-            File file = new File("D:\\Project\\棋盘.txt");
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("标签文件(*.txt)", "txt");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setSelectedFile(new File("棋盘"));
+            fileChooser.showSaveDialog(null);
+            File f=fileChooser.getSelectedFile();
+            String fname = f.getName();//从文件名输入框中获取文件名
+            //创建文件
+            File file=new File(fileChooser.getCurrentDirectory()+"/"+fname+".txt");
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -32,15 +42,21 @@ public class SaveLoad {
             bw.close();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("保存失败！");
         }
     }
-    public static ArrayList<int[][]> load(int k) {
+
+    public static ArrayList<int[][]> load() {
         BufferedReader bufferedReader = null;
         ArrayList<int[][]> L = new ArrayList<>();
         try {
-
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("D:\\project\\棋盘.txt")));
+            JFileChooser fd = new JFileChooser();
+            fd.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            String[] saveType = {"txt"};
+            fd.setFileFilter(new FileNameExtensionFilter("TXT FILE", saveType));
+            fd.showOpenDialog(null);
+            File file = fd.getSelectedFile();
+            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file));
             bufferedReader = new BufferedReader(inputStreamReader);
             String line = null;
             ArrayList<int[][]> Full = new ArrayList<>();
@@ -58,13 +74,14 @@ public class SaveLoad {
                 L.add(Full.get(i));
             }
 
+
         } catch (Exception e) {
+            Start.k = 1;
             System.out.println("棋盘读取失败！请检查文件格式");
-            k = 1;
-            e.printStackTrace();
         }
         return L;
     }
+
     public static void saveU(ArrayList<String> U) {
         File ofile = new File(("D:\\Project\\User.txt"));
         ofile.delete();
@@ -103,6 +120,7 @@ public class SaveLoad {
         }
         return U;
     }
+
     public static void saveP(ArrayList<String> P) {
         File ofile = new File(("D:\\Project\\Password.txt"));
         ofile.delete();
@@ -141,6 +159,7 @@ public class SaveLoad {
         }
         return P;
     }
+
     public static void saveW(ArrayList<Double> W) {
         File ofile = new File(("D:\\Project\\Winning.txt"));
         ofile.delete();
@@ -163,7 +182,7 @@ public class SaveLoad {
 
     public static ArrayList<Double> loadW() {
         BufferedReader bufferedReader = null;
-            ArrayList<Double> W = new ArrayList<>();
+        ArrayList<Double> W = new ArrayList<>();
         try {
             InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("D:\\project\\Winning.txt")));
             bufferedReader = new BufferedReader(inputStreamReader);
@@ -179,6 +198,7 @@ public class SaveLoad {
         }
         return W;
     }
+
     public static void saveN(ArrayList<Integer> N) {
         File ofile = new File(("D:\\Project\\Number.txt"));
         ofile.delete();
