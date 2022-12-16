@@ -1,6 +1,8 @@
 package Project;
 
 
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -24,13 +26,134 @@ public class View {
     public static JButton b = new JButton("结束游戏");
     public static JButton r = new JButton("悔棋");
     public static JButton rs = new JButton("重新开始");
-    public static JButton c = new JButton("切换为作弊模式");
+    public static JButton c = new JButton("作弊模式");
 
-    public static JPanel all = new JPanel(new BorderLayout());
+    public static JPanel all = new JPanel();
+    public static JLabel showChessLeft = new JLabel();
+    public static JLabel showChessRight = new JLabel();
     public static JPanel[][] grids = new JPanel[8][4];
     public static JLabel[][] labels = new JLabel[8][4];
     public static int cheat;
     public static JTextArea textArea = new JTextArea();
+    /*----------------------------------
+    MainMenu:
+     */
+    public static JPanel MainMenu = new JPanel();
+    public static JButton startGame = new JButton();
+    public static JButton loadGame = new JButton();
+    public static JButton onlineGame = new JButton();
+
+    public static JTextArea rank = new JTextArea();
+    public static JButton login = new JButton();
+    public static JButton loginTo = new JButton();
+    public static JButton exit = new JButton();
+    public static JButton startGameAI = new JButton();
+    //-----------------------------------------------
+
+    public static JLabel sideA = new JLabel();
+    public static JLabel sideB = new JLabel();
+
+    public static JLabel l1 = new JLabel();
+    public static JLabel l2 = new JLabel();
+    public static JLabel l3 = new JLabel();
+    public static JLabel l4 = new JLabel();
+    public static JLabel l5 = new JLabel();
+    public static JLabel l6 = new JLabel();
+    public static JLabel l7 = new JLabel();
+    public static JLabel r1 = new JLabel();
+    public static JLabel r2 = new JLabel();
+    public static JLabel r3 = new JLabel();
+    public static JLabel r4 = new JLabel();
+    public static JLabel r5 = new JLabel();
+    public static JLabel r6 = new JLabel();
+    public static JLabel r7 = new JLabel();
+
+    public static JLabel redScore = new JLabel();
+
+    public static JLabel blackScore = new JLabel();
+
+    public static ImageIcon sideRed = new ImageIcon("src\\Game\\SideR.png");
+    public static ImageIcon sideBlack = new ImageIcon("src\\Game\\SideB.png");
+    public static ImageIcon sideNull = new ImageIcon("src\\Game\\SideN.png");
+
+
+    public static void createMainMenu(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) throws InterruptedException, InvocationTargetException {
+        try {
+            SwingUtilities.invokeAndWait(() -> {
+                JFrame.setDefaultLookAndFeelDecorated(true);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
+                frame.setBounds(320, 180, 1037, 583);
+                MainMenu = new JPanel() {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+                        ImageIcon img = new ImageIcon("D:\\Project\\Platform.png");
+                        img.paintIcon(this, g, -3, -3);
+                    }
+                };
+
+
+                MainMenu.setLayout(null);
+                MainMenu.setBounds(320, 180, 1037, 583);
+
+                startGame.addActionListener(e -> {
+                    Start.StartGameUI(board, state, mode, BL, SL);
+                });
+                startGame.setContentAreaFilled(false);
+                startGame.setBounds(608, 73, 245, 59);
+                loadGame.addActionListener(e -> {
+                    Start.LoadGame(BL, SL);
+                });
+                loadGame.setContentAreaFilled(false);
+
+                onlineGame.addActionListener(e -> {
+                    try {
+                        Server.startServer(board, state, BL, SL);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                onlineGame.setContentAreaFilled(false);
+                onlineGame.setBounds(608, 163, 245, 59);
+                startGameAI.addActionListener(e -> {
+                    Start.StartGameAI(board, state, BL, SL);
+                });
+                startGameAI.setContentAreaFilled(false);
+                startGameAI.setBounds(608, 253, 245, 59);
+                login.addActionListener(e -> {
+                    User.showUser();
+                });
+                login.setContentAreaFilled(false);
+                login.setBounds(608, 343, 245, 59);
+                exit.addActionListener(e -> {
+                    System.exit(0);
+                });
+                exit.setContentAreaFilled(false);
+                exit.setBounds(877, 343, 59, 59);
+
+                rank.setBounds(100, 200, 300, 250);
+                rank.setBackground(new Color(52, 51, 52));
+                rank.setLineWrap(true);
+                rank.setFont(new Font("Times New Roman", Font.BOLD, 20));
+                rank.setForeground(Color.WHITE);
+                MainMenu.add(rank);
+                User.showRank();
+
+
+                MainMenu.add(startGame);
+                MainMenu.add(startGameAI);
+                MainMenu.add(onlineGame);
+                MainMenu.add(login);
+                MainMenu.add(exit);
+                frame.add(MainMenu);
+            });
+        } catch (InterruptedException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public static void createView(int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
         Var.x0 = -1;
@@ -40,48 +163,133 @@ public class View {
         try {
             SwingUtilities.invokeAndWait(() -> {
                 JFrame.setDefaultLookAndFeelDecorated(true);
+                all = new JPanel() {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+                        ImageIcon img = new ImageIcon("src\\Game\\Game.png");
+                        img.paintIcon(this, g, -3, -3);
+                    }
+                };
+
 
                 // 创建及设置窗口
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                button.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+
                 //创建一个文本框
 
-                  // 自动换行
+                // 自动换行
                 textArea.setLineWrap(true);
-                  // 设置字体
+
+                // 设置字体
                 textArea.setFont(new Font(null, Font.PLAIN, 18));
                 JScrollPane jScrollPane = new JScrollPane(
                         textArea,
                         ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
                 );
+                jScrollPane.setBounds(722, 53, 237, 375);
+
+
+                all.add(jScrollPane);
 
                 // 显示窗口
-                frame.pack();
-                frame.setVisible(false);
-                p.setSize(640, 480);
-                frame.setSize(640, 480);
+                redScore.setBounds(633, 66, 30, 30);
+                redScore.setOpaque(true);
+                redScore.setBackground(new Color(255, 255, 229));
+                all.add(redScore);
+                blackScore.setBounds(633, 121, 30, 30);
+                blackScore.setOpaque(true);
+                blackScore.setBackground(new Color(255, 255, 229));
+                all.add(blackScore);
+                showChessLeft.setBounds(85, 52, 55, 375);
+                showChessRight.setBounds(447, 160, 55, 375);
+                ImageIcon img0 = new ImageIcon("src\\Game\\null.png");
+                showChessLeft.setIcon(img0);
+                showChessRight.setIcon(img0);
+                p.setBounds(187, 55, 240, 475);
+                sideA.setBounds(36, 57, 27, 27);
+                sideB.setBounds(563, 505, 27, 27);
+                sideA.setIcon(sideNull);
+                sideB.setIcon(sideNull);
+                l1.setBackground(new Color(255, 255, 229));
+                l1.setOpaque(true);
+                l1.setBounds(145, 65, 30, 30);
+                l2.setBackground(new Color(255, 255, 229));
+                l2.setOpaque(true);
+                l2.setBounds(145, 120, 30, 30);
+                all.add(l2);
+                l3.setBackground(new Color(255, 255, 229));
+                l3.setOpaque(true);
+                l3.setBounds(145, 175, 30, 30);
+                all.add(l3);
+                l4.setBackground(new Color(255, 255, 229));
+                l4.setOpaque(true);
+                l4.setBounds(145, 227, 30, 30);
+                all.add(l4);
+                l5.setBackground(new Color(255, 255, 229));
+                l5.setOpaque(true);
+                l5.setBounds(145, 280, 30, 30);
+                all.add(l5);
+                l6.setBackground(new Color(255, 255, 229));
+                l6.setOpaque(true);
+                l6.setBounds(145, 335, 30, 30);
+                all.add(l6);
+                l7.setBackground(new Color(255, 255, 229));
+                l7.setOpaque(true);
+                l7.setBounds(145, 390, 30, 30);
+                all.add(l7);
+
+                r1.setBackground(new Color(255, 255, 229));
+                r1.setOpaque(true);
+                r1.setBounds(507, 173, 30, 30);
+                all.add(r1);
+                r2.setBackground(new Color(255, 255, 229));
+                r2.setOpaque(true);
+                r2.setBounds(507, 228, 30, 30);
+                all.add(r2);
+                r3.setBackground(new Color(255, 255, 229));
+                r3.setOpaque(true);
+                r3.setBounds(507, 283, 30, 30);
+                all.add(r3);
+                r4.setBackground(new Color(255, 255, 229));
+                r4.setOpaque(true);
+                r4.setBounds(507, 338, 30, 30);
+                all.add(r4);
+                r5.setBackground(new Color(255, 255, 229));
+                r5.setOpaque(true);
+                r5.setBounds(507, 390, 30, 30);
+                all.add(r5);
+                r6.setBackground(new Color(255, 255, 229));
+                r6.setOpaque(true);
+                r6.setBounds(507, 443, 30, 30);
+                all.add(r6);
+                r7.setBackground(new Color(255, 255, 229));
+                r7.setOpaque(true);
+                r7.setBounds(507, 498, 30, 30);
+                all.add(r7);
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 4; j++) {
                         JPanel t = new JPanel();
-                        Color c = new Color(255,255,255);
-                        t.setBackground(c);
+                        Color c = new Color(255, 255, 255);
+                        t.setBackground(Color.WHITE);
+                        t.setOpaque(false);
                         int finalI = i;
                         int finalJ = j;
                         t.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                if(DarkChess.n==11){
-                                    if(player==2){
+                                if (DarkChess.n == 11) {
+                                    if (player == 2) {
                                         try {
-                                            MainGameClient.methodClient(finalI,finalJ,board,state,BL,SL);
+                                            MainGameClient.methodClient(finalI, finalJ, DarkChess.board, DarkChess.state, BL, SL);
                                         } catch (IOException ex) {
                                             throw new RuntimeException(ex);
                                         }
                                     }
-                                    if(player==1){
+                                    if (player == 1) {
                                         try {
-                                            MainGameClient.methodServer(finalI,finalJ,board,state,BL,SL);
+                                            MainGameClient.methodServer(finalI, finalJ, DarkChess.board, DarkChess.state, BL, SL);
                                         } catch (IOException ex) {
                                             throw new RuntimeException(ex);
                                         }
@@ -89,45 +297,52 @@ public class View {
                                 }
                                 if (e.isMetaDown()) {
                                     if (cheat == 1) {
-                                        textArea.append("\n"+"该位置的棋子是"+(board[finalI][finalJ]));
+                                        textArea.append("\n" + "位置(" + finalI + "," + finalJ + ")的棋子是" + (Convert.convertGUI(DarkChess.board[finalI][finalJ])));
                                     }
                                 }
                                 if (DarkChess.n == 0 && !e.isMetaDown()) {
-                                    MainGameUI.method(finalI, finalJ, board, state, BL, SL);
+                                    MainGameUI.method(finalI, finalJ, DarkChess.board, DarkChess.state, BL, SL);
                                 }
                                 if (DarkChess.n == 10 && !e.isMetaDown()) {
-                                        MainGameAI.method(finalI, finalJ, board, state, BL, SL);
-                                        MainGameAI.method(-1, -1, board, state, BL, SL);
+                                    MainGameAI.method(finalI, finalJ, DarkChess.board, DarkChess.state, BL, SL);
+                                    MainGameAI.method(-1, -1, DarkChess.board, DarkChess.state, BL, SL);
                                 }
-                                if(Var.d == 2 || Var.d == 3){
+                                if (Var.d == 2 || Var.d == 3) {
+                                    t.setOpaque(true);
                                     t.setBackground(Color.GRAY);
                                 }
                             }
+
                             @Override
                             public void mouseEntered(MouseEvent e) {
-                                Color c = new Color(0,0,255);
+                                t.setOpaque(true);
+                                Color c = new Color(139, 162, 255);
                                 t.setBackground(c);
                             }
 
                             @Override
                             public void mouseExited(MouseEvent e) {
-                                Color c = new Color(255,255,255);
+                                Color c = new Color(255, 255, 255);
                                 t.setBackground(c);
-                                if(Var.x0!=-1&&Var.y0!=-1) {
+                                t.setOpaque(false);
+                                if (Var.x0 != -1 && Var.y0 != -1) {
+                                    grids[Var.x0][Var.y0].setOpaque(true);
                                     grids[Var.x0][Var.y0].setBackground(Color.GRAY);
-                                    if(Var.d==2){
-                                        for(int i = 0; i < 8;i++){
-                                            for(int j = 0;j<4;j++){
-                                                if(MoveJudge.mj(Var.x0,Var.y0,i,j,board,state)){
+                                    if (Var.d == 2) {
+                                        for (int i = 0; i < 8; i++) {
+                                            for (int j = 0; j < 4; j++) {
+                                                if (MoveJudge.mj(Var.x0, Var.y0, i, j, DarkChess.board, DarkChess.state)) {
+                                                    grids[i][j].setOpaque(true);
                                                     grids[i][j].setBackground(Color.YELLOW);
                                                 }
                                             }
                                         }
                                     }
-                                    if(Var.d==3){
-                                        for(int i = 0; i < 8;i++){
-                                            for(int j = 0;j<4;j++){
-                                                if(CannonJudge.cj(Var.x0,Var.y0,i,j,board,state)){
+                                    if (Var.d == 3) {
+                                        for (int i = 0; i < 8; i++) {
+                                            for (int j = 0; j < 4; j++) {
+                                                if (CannonJudge.cj(Var.x0, Var.y0, i, j, DarkChess.board, DarkChess.state)) {
+                                                    grids[i][j].setOpaque(true);
                                                     grids[i][j].setBackground(Color.YELLOW);
                                                 }
                                             }
@@ -138,7 +353,7 @@ public class View {
 
                         });
                         p.add(t);
-                        t.setBorder(new LineBorder(Color.black));
+
                         t.setVisible(true);
                         p.setVisible(true);
                         grids[i][j] = t;
@@ -149,43 +364,68 @@ public class View {
 
                     }
                 }
-    //            button.addActionListener((e) -> {
-    //                System.out.println("clicked");
-    //            });
+                //            button.addActionListener((e) -> {
+                //                System.out.println("clicked");
+                //            });
 
-                button.add(b);
+                p.setBackground(Color.WHITE);
+                p.setOpaque(false);
+
                 b.addActionListener(e -> {
                     exit(BL, SL);
                 });
-                button.add(endGame);
-                endGame.addActionListener(e ->{
-                    frame.setVisible(false);
+                b.setBounds(580, 180, 100, 35);
+                b.setBackground(new Color(255, 255, 255));
+                all.add(b);
+                endGame.addActionListener(e -> {
+                    all.setVisible(false);
+                    MainMenu.setVisible(true);
                 });
                 endGame.setVisible(false);
+                endGame.setBounds(257, 280, 100, 35);
+                endGame.setBackground(new Color(255, 255, 255));
+                all.add(endGame);
 
-                button.add(r);
                 r.addActionListener(e -> {
-                    regret(BL, SL, board, state);
+                    regret(BL, SL, DarkChess.board, DarkChess.state);
                 });
+                r.setBounds(580, 230, 100, 35);
+                r.setBackground(new Color(255, 255, 255));
+                all.add(r);
 
-                button.add(rs);
+
                 rs.addActionListener(e -> {
-                    restart(BL, SL, board, state);
+                    restart(BL, SL, DarkChess.board, DarkChess.state);
                 });
+                rs.setBounds(580, 280, 100, 35);
+                rs.setBackground(new Color(255, 255, 255));
+                all.add(rs);
 
-                button.add(c);
+
                 c.addActionListener(e -> {
                     if (cheat == -1) {
-                        c.setText("切换为普通模式");
+                        c.setText("普通模式");
                     }
                     if (cheat == 1) {
-                        c.setText("切换为作弊模式");
+                        c.setText("作弊模式");
                     }
                     cheat = -cheat;
                 });
-                all.add(p, "North");
-                all.add(button, "South");
-                all.add(jScrollPane);
+                c.setBounds(580, 330, 100, 35);
+                c.setBackground(new Color(255, 255, 255));
+                all.add(c);
+
+                all.setLayout(null);
+                all.add(showChessLeft);
+                all.add(showChessRight);
+                all.add(sideA);
+                all.add(sideB);
+                all.add(l1);
+                all.add(p);
+
+
+                all.setBounds(320, 180, 1037, 583);
+                all.setVisible(false);
                 frame.add(all);
             });
         } catch (InterruptedException | InvocationTargetException e) {
@@ -196,25 +436,20 @@ public class View {
     public static void redraw(int[][] board, int[][] state) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 4; j++) {
-                if (state[i][j] == 0) {
-                    labels[i][j].setText("0");
-                } else {
-                    labels[i][j].setText(String.valueOf(board[i][j]));
-                }
+                labels[i][j].setIcon(SetImg.setImg(i, j, board, state));
             }
 
         }
     }
-    public static void setBack(int x,int y){
-        for(int i = 0; i < 8;i++){
-            for(int j = 0;j<4;j++){
-                    grids[i][j].setBackground(Color.WHITE);
+
+    public static void setBack(int x, int y) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 4; j++) {
+                grids[i][j].setBackground(Color.WHITE);
+                grids[i][j].setOpaque(false);
             }
         }
     }
-
-
-
 
 
     public static void regret(ArrayList<int[][]> BL, ArrayList<int[][]> SL, int[][] board, int[][] state) {

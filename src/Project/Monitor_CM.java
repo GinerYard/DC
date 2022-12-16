@@ -2,6 +2,9 @@ package Project;
 
 import java.util.Scanner;
 
+import Project.View;
+
+
 class Monitor_CM {
     //在作弊模式下，除了公示棋盘、分数、回合和先后手以外，玩家输入要查看的未翻面棋子时将公布棋子类型
     static void cm(int[][] board, int[][] state) {
@@ -55,6 +58,39 @@ class Monitor_CM {
                 System.out.printf("       %s x %d            %s x %d",Convert.convert(i),num[i-1]-r[i-1],Convert.convert(-i),num[i+6]-r[i+6]);
             }
             System.out.printf("\n");
+
+        }
+        if(DarkChess.c>0){
+            View.r1.setText(String.valueOf(num[0]-r[0]));
+            View.r2.setText(String.valueOf(num[1]-r[1]));
+            View.r3.setText(String.valueOf(num[2]-r[2]));
+            View.r4.setText(String.valueOf(num[3]-r[3]));
+            View.r5.setText(String.valueOf(num[4]-r[4]));
+            View.r6.setText(String.valueOf(num[5]-r[5]));
+            View.r7.setText(String.valueOf(num[6]-r[6]));
+            View.l1.setText(String.valueOf(num[13]-r[13]));
+            View.l2.setText(String.valueOf(num[12]-r[12]));
+            View.l3.setText(String.valueOf(num[11]-r[11]));
+            View.l4.setText(String.valueOf(num[10]-r[10]));
+            View.l5.setText(String.valueOf(num[9]-r[9]));
+            View.l6.setText(String.valueOf(num[8]-r[8]));
+            View.l7.setText(String.valueOf(num[7]-r[7]));
+        }
+        if(DarkChess.c<0){
+            View.l7.setText(String.valueOf(num[0]-r[0]));
+            View.l6.setText(String.valueOf(num[1]-r[1]));
+            View.l5.setText(String.valueOf(num[2]-r[2]));
+            View.l4.setText(String.valueOf(num[3]-r[3]));
+            View.l3.setText(String.valueOf(num[4]-r[4]));
+            View.l2.setText(String.valueOf(num[5]-r[5]));
+            View.l1.setText(String.valueOf(num[6]-r[6]));
+            View.r7.setText(String.valueOf(num[13]-r[13]));
+            View.r6.setText(String.valueOf(num[12]-r[12]));
+            View.r5.setText(String.valueOf(num[11]-r[11]));
+            View.r4.setText(String.valueOf(num[10]-r[10]));
+            View.r3.setText(String.valueOf(num[9]-r[9]));
+            View.r2.setText(String.valueOf(num[8]-r[8]));
+            View.r1.setText(String.valueOf(num[7]-r[7]));
         }
         int flagcm = 1;
         while (flagcm != 0) {

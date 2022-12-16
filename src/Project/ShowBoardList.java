@@ -34,10 +34,10 @@ public class ShowBoardList {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 4; j++) {
                     System.out.printf("%s  ", Convert.convert(pub[i][j]));
-                    View.textArea.append(Convert.convert(pub[i][j]));
+                    View.textArea.append(Convert.convertGUI(pub[i][j]));
                     if(j==3){
-                        System.out.printf("         %s %s %s %s",Convert.convert(BL.get(k)[i][0]),Convert.convert(BL.get(k)[i][1]),Convert.convert(BL.get(k)[i][2]),Convert.convert(BL.get(k)[i][3]));
-                        View.textArea.append("         "+Convert.convert(BL.get(k)[i][0])+" "+Convert.convert(BL.get(k)[i][1])+" "+Convert.convert(BL.get(k)[i][2])+" "+Convert.convert(BL.get(k)[i][3]));
+                        System.out.printf("         %s %s %s %s",Convert.convertGUI(BL.get(k)[i][0]),Convert.convertGUI(BL.get(k)[i][1]),Convert.convertGUI(BL.get(k)[i][2]),Convert.convertGUI(BL.get(k)[i][3]));
+                        View.textArea.append("         "+Convert.convertGUI(BL.get(k)[i][0])+" "+Convert.convertGUI(BL.get(k)[i][1])+" "+Convert.convertGUI(BL.get(k)[i][2])+" "+Convert.convertGUI(BL.get(k)[i][3]));
                     }
 
                 }

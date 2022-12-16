@@ -17,7 +17,7 @@ public class Server {
         System.out.println("服务器开启成功");
         View.frame.setVisible(true);
         while (true) {
-            new Thread(() -> {
+            Thread t = new Thread(() -> {
                 try {
                     //等待客户连接
                     socket = server.accept();
@@ -45,10 +45,12 @@ public class Server {
                     View.player = 1;
                     inDataFromClient(board,state);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException ignored) {
                 }
-            }).start();
+            });
+            t.start();
+            t.interrupt();
+
 
         }
     }

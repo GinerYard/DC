@@ -2,6 +2,7 @@ package Project;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,18 +12,12 @@ public class DarkChess {
     public static int c;
     public static int n;
     public static int k;
+    public static int[][] board = new int[8][4];
+    public static int[][] state = new int[8][4];
 
-    public static JButton startGame = new JButton();
-    public static JButton loadGame = new JButton();
-    public static JButton user = new JButton();
-    public static JButton rank = new JButton();
-    public static JButton exit = new JButton();
 
-    public static JButton startGameLocal = new JButton();
-    public static JButton startGameAI = new JButton();
-    public static JButton startGameNet = new JButton();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException, InvocationTargetException {
 
 
 //        JFrame frame = new JFrame();
@@ -37,15 +32,15 @@ public class DarkChess {
         round = 0;
         c = 0;
         Scanner input = new Scanner(System.in);
-        int[][] board = new int[8][4];
-        int[][] state = new int[8][4];
+
         int[][] pub = new int[8][4];
         ArrayList<int[][]> BL = new ArrayList<>();
         ArrayList<int[][]> SL = new ArrayList<>();
         Var mode = new Var();
         Var.clock=-1;
         mode.setMode(0);
-        View.createView(board, state, BL, SL);
+        View.createMainMenu(board,state,mode,BL,SL);
+        View.createView(board,state,BL,SL);
         System.out.println("欢迎游玩纯纯摆烂人摸鱼制作的小成本翻棋！");
         do {
             //createView
@@ -72,7 +67,7 @@ public class DarkChess {
                 System.out.println("0 简单模式");
                 System.out.println("1 困难模式");
                 k = input.nextInt();
-                Start.StartGameAI(board, state, pub, mode, BL, SL, round, c);
+                Start.StartGameAI(board, state, BL, SL);
             }
             if (n == 2) {
                 User.showUser();
@@ -82,6 +77,9 @@ public class DarkChess {
             }
             if (n == 11) {
                 Server.startServer(board, state, BL, SL);
+            }
+            if(n==12){
+
             }
         } while (true);
     }

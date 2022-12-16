@@ -167,6 +167,15 @@ public class User {
         }
     }
     public static void showRank(){
+        View.rank.setText(null);
+        ArrayList<String> U0 =  SaveLoad.loadU();
+        U.setU(U0);
+        ArrayList<String> P0 =  SaveLoad.loadP();
+        P.setP(P0);
+        ArrayList<Double> W0 =  SaveLoad.loadW();
+        W.setW(W0);
+        ArrayList<Integer> N0 =  SaveLoad.loadN();
+        N.setN(N0);
         System.out.println("排名"+"  "+"用户"+"  "+"胜率");
         ArrayList<Double> W1 = W.getW();
         int k = 0;
@@ -180,10 +189,10 @@ public class User {
                     }
                 }
                 if(n==W1.size()&&d!=0){
-                    System.out.printf("%d",r);
-                    System.out.printf("   %s",U.getU().get(W1.indexOf(d)));
-                    System.out.printf("  %.1f",d*100);
-                    System.out.println("%");
+                    View.rank.append(String.valueOf(r));
+                    View.rank.append("             "+U.getU().get(W1.indexOf(d)));
+                    View.rank.append("             "+String.format("%.1f",d*100));
+                    View.rank.append("%\n");
                     W1.set(W1.indexOf(d), (double) 0);
                     r++;
                 }

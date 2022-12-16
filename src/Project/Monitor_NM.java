@@ -53,6 +53,38 @@ class Monitor_NM {
             }
             System.out.printf("\n");
         }
+        if(DarkChess.c>0){
+            View.r1.setText(String.valueOf(num[0]-r[0]));
+            View.r2.setText(String.valueOf(num[1]-r[1]));
+            View.r3.setText(String.valueOf(num[2]-r[2]));
+            View.r4.setText(String.valueOf(num[3]-r[3]));
+            View.r5.setText(String.valueOf(num[4]-r[4]));
+            View.r6.setText(String.valueOf(num[5]-r[5]));
+            View.r7.setText(String.valueOf(num[6]-r[6]));
+            View.l1.setText(String.valueOf(num[13]-r[13]));
+            View.l2.setText(String.valueOf(num[12]-r[12]));
+            View.l3.setText(String.valueOf(num[11]-r[11]));
+            View.l4.setText(String.valueOf(num[10]-r[10]));
+            View.l5.setText(String.valueOf(num[9]-r[9]));
+            View.l6.setText(String.valueOf(num[8]-r[8]));
+            View.l7.setText(String.valueOf(num[7]-r[7]));
+        }
+        if(DarkChess.c<0){
+            View.l7.setText(String.valueOf(num[0]-r[0]));
+            View.l6.setText(String.valueOf(num[1]-r[1]));
+            View.l5.setText(String.valueOf(num[2]-r[2]));
+            View.l4.setText(String.valueOf(num[3]-r[3]));
+            View.l3.setText(String.valueOf(num[4]-r[4]));
+            View.l2.setText(String.valueOf(num[5]-r[5]));
+            View.l1.setText(String.valueOf(num[6]-r[6]));
+            View.r7.setText(String.valueOf(num[13]-r[13]));
+            View.r6.setText(String.valueOf(num[12]-r[12]));
+            View.r5.setText(String.valueOf(num[11]-r[11]));
+            View.r4.setText(String.valueOf(num[10]-r[10]));
+            View.r3.setText(String.valueOf(num[9]-r[9]));
+            View.r2.setText(String.valueOf(num[8]-r[8]));
+            View.r1.setText(String.valueOf(num[7]-r[7]));
+        }
     }
 }
 

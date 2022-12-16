@@ -1,41 +1,43 @@
 package Project;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Start {
+class Start extends View {
     public static int k = 0;
     //给玩家选择：新游戏、加载棋盘、退出游戏三个选项，若玩家选择新游戏或加载棋盘，给玩家选择：NM或CM两个选项
     public static void StartGame(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL,int round,int c) {
-        mode(mode);
+        mode(board,state,mode,BL,SL);
         Initializer.Init(board, state, BL, SL);
         round = 2;
     }
     public static void StartGameUI(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+        DarkChess.n = 0;
+        mode(board,state,mode,BL,SL);
 
-        mode(mode);
-        Initializer.Init(board, state, BL, SL);
-        DarkChess.c = 0;
-        DarkChess.round = 2;
-        Var.d = 1;
-        View.frame.setVisible(true);
-        View.textArea.setText("第1回合开始");
-        View.redraw(board, state);
     }
-    public static void StartGameAI(int[][] board, int[][] state, int[][] pub, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL,int round,int c) {
+    public static void newGame(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+        DarkChess.n = 0;
+        mode(board,state,mode,BL,SL);
+
+    }
+    public static void StartGameAI(int[][] board, int[][] state,ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
         Initializer.Init(board, state, BL, SL);
         DarkChess.c = 0;
         DarkChess.round = 2;
         Var.d = 1;
-        View.frame.setVisible(true);
+        View.all.setVisible(true);
         View.textArea.setText("第1回合开始");
         View.redraw(board, state);
     }
 
 
     public static void LoadGame(ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+        DarkChess.n = 0;
         k = 0;
         ArrayList<int[][]> L = SaveLoad.load();
+
         if(k==1){
             return;
         }
@@ -56,32 +58,84 @@ class Start {
             }
         }
         DarkChess.round = BL.size() + 1;
-        int[][] board = BL.get(BL.size() - 1);
-        int[][] state = SL.get(SL.size() - 1);
+        System.out.println(DarkChess.c);
+        System.out.println(DarkChess.round);
+        DarkChess.board = BL.get(BL.size() - 1);
+        DarkChess.state = SL.get(SL.size() - 1);
+        if (DarkChess.c > 0) {
+            ImageIcon img1 = new ImageIcon("src\\Game\\redFblack.png");
+            View.showChessLeft.setIcon(img1);
+            ImageIcon img2 = new ImageIcon("src\\Game\\redFred.png");
+            View.showChessRight.setIcon(img2);
+        }
+        if (DarkChess.c < 0) {
+            ImageIcon img1 = new ImageIcon("src\\Game\\blackFred.png");
+            View.showChessLeft.setIcon(img1);
+            ImageIcon img2 = new ImageIcon("src\\Game\\blackFblack.png");
+            View.showChessRight.setIcon(img2);
+        }
+        View.redScore.setText(String.valueOf(ScoreDetector.scoreRed(DarkChess.board)));
+        View.blackScore.setText(String.valueOf(ScoreDetector.scoreBlack(DarkChess.board)));
+        if (DarkChess.round % 2 == 0) {
+            System.out.printf("第%d回合开始\n", DarkChess.round / 2);
+            View.textArea.append("\n第"+ DarkChess.round/2+"回合开始");
+            if(DarkChess.c>0){
+                View.sideB.setIcon(View.sideRed);
+                View.sideA.setIcon(View.sideNull);
+            }
+            if(DarkChess.c<0){
+                View.sideB.setIcon(View.sideBlack);
+                View.sideA.setIcon(View.sideNull);
+            }
+        }
+        if(DarkChess.round % 2 == 1){
+            if(DarkChess.c>0){
+                View.sideA.setIcon(View.sideBlack);
+                View.sideB.setIcon(View.sideNull);
+            }
+            if(DarkChess.c<0){
+                View.sideA.setIcon(View.sideRed);
+                View.sideB.setIcon(View.sideNull);
+            }
+        }
+
         Var mode = new Var();
-        mode(mode);
-        Monitor_NM.nm(board, state);
         Var.d = 1;
-        View.frame.setVisible(true);
+        View.MainMenu.setVisible(false);
+        View.all.setVisible(true);
         View.b.setVisible(true);
         View.r.setVisible(true);
         View.rs.setVisible(true);
         View.c.setVisible(true);
         View.endGame.setVisible(false);
-        View.redraw(board, state);
+        View.redraw(DarkChess.board, DarkChess.state);
+        Monitor_NM.nm(DarkChess.board, DarkChess.state);
+        ShowBoardList.showList(BL,SL);
 
     }
 
-    public static void mode(Var mode) {
-        System.out.println("输入0开始普通模式，输入1开始作弊模式");
-        Scanner input = new Scanner(System.in);
-        int m = input.nextInt();
-        mode.setMode(m);
+    public static void mode(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
+        Object[] options ={ "新游戏", "加载棋盘" };
+        int m = JOptionPane.showOptionDialog(null, "请选择游戏模式", "开始游戏",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        if (m == JOptionPane.OK_OPTION) {
+            mode.setMode(m);
+            Initializer.Init(board, state, BL, SL);
+            DarkChess.c = 0;
+            DarkChess.round = 2;
+            Var.d = 1;
+            View.all.setVisible(true);
+            View.MainMenu.setVisible(false);
+            View.textArea.setText("第1回合开始");
+            View.redraw(board, state);
+        }else{
+            mode.setMode(1);
+            LoadGame(BL,SL);
+        }
         if (mode.getMode() == 0) {
-            System.out.println("您选择了普通模式，您将不能查看翻面的棋子");
+            System.out.println("");
         }
         if (mode.getMode() == 1) {
-            System.out.println("您选择了作弊模式，您可以在每次操作结束后查看翻面的棋子");
+            System.out.println("");
         }
         System.out.println("游戏即将开始......");
     }

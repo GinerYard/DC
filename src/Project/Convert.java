@@ -39,4 +39,42 @@ public class Convert {
 
         return null;
     }
+    public static String convertGUI(int s) {
+        switch (s) {
+            case 1:
+                return("红帅");
+            case 2:
+                return("红士");
+            case 3:
+                return("红相");
+            case 4:
+                return("红车");
+            case 5:
+                return("红马");
+            case 6:
+                return("红兵");
+            case 7:
+                return("红炮");
+            case -1:
+                return("黑将");
+            case -2:
+                return("黑士");
+            case -3:
+                return("黑象");
+            case -4:
+                return("黑车");
+            case -5:
+                return("黑马");
+            case -6:
+                return("黑卒");
+            case -7:
+                return("黑炮");
+            case 100:
+                return("空白");
+            case 0:
+                return("暗棋");
+        }
+
+        return null;
+    }
 }
