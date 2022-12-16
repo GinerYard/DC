@@ -3,46 +3,53 @@ package Project;
 import java.util.Random;
 
 public class AI {
-    public static void randomChoose(int[][] board, int[][] state) {
-        int[] v = {0, 1, 2, 3, 4, 5, 6, 7};
-        int[] h = {0, 1, 2, 3};
-        Random r1 = new Random();
-        for (int i = 0; i < 8; i++) {
-            int index = r1.nextInt(8);
-            int temp = v[index];
-            v[index] = v[i];
-            v[i] = temp;
-        }
-        Random r2 = new Random();
-        for (int i = 0; i < 4; i++) {
-            int index = r2.nextInt(4);
-            int temp = h[index];
-            h[index] = h[i];
-            h[i] = temp;
-        }
-        int x = -1;
-        int y = -1;
-        define:
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (randomChooseJudge(v[i], h[j], board, state)) {
-                    x = v[i];
-                    y = h[j];
-                    break define;
+
+
+        public static void randomChoose ( int[][] board, int[][] state){
+
+
+            int[] v = {0, 1, 2, 3, 4, 5, 6, 7};
+            int[] h = {0, 1, 2, 3};
+            Random r1 = new Random();
+            for (int i = 0; i < 8; i++) {
+                int index = r1.nextInt(8);
+                int temp = v[index];
+                v[index] = v[i];
+                v[i] = temp;
+            }
+            Random r2 = new Random();
+            for (int i = 0; i < 4; i++) {
+                int index = r2.nextInt(4);
+                int temp = h[index];
+                h[index] = h[i];
+                h[i] = temp;
+            }
+            int x = -1;
+            int y = -1;
+            define:
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (randomChooseJudge(v[i], h[j], board, state)) {
+                        x = v[i];
+                        y = h[j];
+                        break define;
+                    }
                 }
             }
-        }
-        if (state[x][y] != 0 && board[x][y] != 7) {
-            randomChooseMove(x, y, board, state);
-        }
-        if (state[x][y] != 0 && board[x][y] == 7) {
-            randomChooseCannon(x, y, board, state);
-        }
-        if (state[x][y] == 0) {
-            randomChooseTurn(x, y, board, state);
-        }
+            if (state[x][y] != 0 && board[x][y] != 7) {
+                randomChooseMove(x, y, board, state);
+            }
+            if (state[x][y] != 0 && board[x][y] == 7) {
+                randomChooseCannon(x, y, board, state);
+            }
+            if (state[x][y] == 0) {
+                randomChooseTurn(x, y, board, state);
+            }
+            System.out.println("AI已经完成操作");
+            View.textArea.append("\nAI已经完成操作");
 
-    }
+
+        }
 
 
     public static boolean randomChooseJudge(int x, int y, int[][] board, int[][] state) {
@@ -202,6 +209,7 @@ public class AI {
     }
 
     public static void AIChoose(int[][] board, int[][] state) {
+
         int[][] score = new int[8][4];
         int s0 = 0;
         for (int i = 0; i < 8; i++) {
@@ -298,6 +306,7 @@ public class AI {
         if(state[x][y]==0){
             state[x][y]=1;
         }
+        System.out.println("AI已经完成操作");
+        View.textArea.append("\nAI已经完成操作");
     }
-
 }

@@ -13,10 +13,13 @@ public class Server {
 
     public static void startServer(int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) throws IOException {
         //搭建服务器
+
         server = new ServerSocket(12138);
         System.out.println("服务器开启成功");
-        View.frame.setVisible(true);
-        while (true) {
+        System.out.println("22222222332232");
+
+
+
             Thread t = new Thread(() -> {
                 try {
                     //等待客户连接
@@ -29,6 +32,7 @@ public class Server {
                     DarkChess.round = 2;
                     Var.d = 1;
                     View.player = 1;
+                    DarkChess.n = 11;
 
 
                     //接收客户端发来的消息
@@ -36,6 +40,7 @@ public class Server {
                     BufferedReader br = new BufferedReader(new InputStreamReader(is));
                     String text = br.readLine();
                     System.out.println("客户端消息：" + text);
+
 
                     outDataFromServer(board, state);
                     View.frame.setVisible(true);
@@ -49,10 +54,10 @@ public class Server {
                 }
             });
             t.start();
-            t.interrupt();
 
 
-        }
+
+
     }
 
 
@@ -117,9 +122,10 @@ public class Server {
                 }
                 DarkChess.round++;
                 System.out.printf("红色方的分数为：%d\n", ScoreDetector.scoreRed(board));
-                View.textArea.append("\n红色方的分数为:" + ScoreDetector.scoreRed(board));
+
                 System.out.printf("黑色方的分数为：%d\n", ScoreDetector.scoreBlack(board));
-                View.textArea.append("\n黑色方的分数为:" + ScoreDetector.scoreRed(board));
+                View.redScore.setText(String.valueOf(ScoreDetector.scoreRed(board)));
+                View.blackScore.setText(String.valueOf(ScoreDetector.scoreBlack(board)));
                 View.redraw(board, state);
                 if (!DrawJudge.dj(board, state, DarkChess.c, DarkChess.round)) {
                     JOptionPane.showMessageDialog(null, "游戏结束，双方平局", "无棋可走", JOptionPane.OK_OPTION);
@@ -146,6 +152,14 @@ public class Server {
                 }
                 System.out.printf("第%d回合开始\n", DarkChess.round / 2);
                 View.textArea.append("\n第" + DarkChess.round / 2 + "回合开始");
+                if(DarkChess.c>0){
+                    View.sideB.setIcon(View.sideRed);
+                    View.sideA.setIcon(View.sideNull);
+                }
+                if(DarkChess.c<0){
+                    View.sideB.setIcon(View.sideBlack);
+                    View.sideA.setIcon(View.sideNull);
+                }
             }
         }).start();
     }

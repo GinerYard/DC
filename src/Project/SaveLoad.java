@@ -61,7 +61,7 @@ public class SaveLoad {
             String line = null;
             ArrayList<int[][]> Full = new ArrayList<>();
             while ((line = bufferedReader.readLine()) != null) {
-                String[] strings = line.split("\\t");
+                String[] strings = line.split("\t");
                 int[][] F = new int[8][4];
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 4; j++) {
@@ -78,6 +78,7 @@ public class SaveLoad {
         } catch (Exception e) {
             Start.k = 1;
             System.out.println("棋盘读取失败！请检查文件格式");
+            JOptionPane.showMessageDialog(null, "棋盘读取失败！请检查文件格式", "加载失败", JOptionPane.WARNING_MESSAGE);
         }
         return L;
     }
@@ -110,7 +111,7 @@ public class SaveLoad {
             bufferedReader = new BufferedReader(inputStreamReader);
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] u = line.split("\\t");
+                String[] u = line.split("\t");
                 for (String s : u) {
                     U.add(s);
                 }
@@ -149,7 +150,7 @@ public class SaveLoad {
             bufferedReader = new BufferedReader(inputStreamReader);
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] u = line.split("\\t");
+                String[] u = line.split("\t");
                 for (String s : u) {
                     P.add(s);
                 }
@@ -188,7 +189,7 @@ public class SaveLoad {
             bufferedReader = new BufferedReader(inputStreamReader);
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] u = line.split("\\t");
+                String[] u = line.split("\t");
                 for (String s : u) {
                     W.add(Double.valueOf(s));
                 }
@@ -227,7 +228,7 @@ public class SaveLoad {
             bufferedReader = new BufferedReader(inputStreamReader);
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] u = line.split("\\t");
+                String[] u = line.split("\t");
                 for (String s : u) {
                     N.add(Integer.valueOf(s));
                 }

@@ -32,42 +32,9 @@ public class Var {
     private String user;
     private String password;
     private String ensurePassword;
-    private static ArrayList<String> U = new ArrayList<>();
-    private static ArrayList<String> P = new ArrayList<>();
-    private static ArrayList<Double> W = new ArrayList<>();//胜率
 
-    private static ArrayList<Integer> N = new ArrayList<>();
 
-    public static void setN(ArrayList<Integer> n) {
-        N = n;
-    }
 
-    public static ArrayList<Integer> getN() {
-        return N;
-    }
-
-    public static void setU(ArrayList<String> u) {
-        U = u;
-    }
-    public static ArrayList<String> getU() {
-        return U;
-    }
-
-    public static void setP(ArrayList<String> p) {
-        P = p;
-    }
-
-    public static ArrayList<String> getP() {
-        return P;
-    }
-
-    public static void setW(ArrayList<Double> w) {
-        W = w;
-    }
-
-    public static ArrayList<Double> getW() {
-        return W;
-    }
 
 
     public static int clock;

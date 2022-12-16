@@ -5,7 +5,7 @@ import java.util.Random;
 
 class Initializer {
 
-    public static void Init(int[][] board, int[][] state, ArrayList<int[][]> BL,ArrayList<int[][]> SL) {
+    public static void Init(int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
         //随机数组
         int[] random = new int[32];
         random[0] = 1;
@@ -39,7 +39,7 @@ class Initializer {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 4; j++) {
-                board[i][j] = random[4 * i + j];
+                DarkChess.board[i][j] = random[4 * i + j];
             }
         }
 
@@ -48,31 +48,29 @@ class Initializer {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 4; j++) {
-                state[i][j] = 0;
+                DarkChess.state[i][j] = 0;
             }
         }
 
         //3.初始化公示棋盘
 
         if (Var.getMode() == 0) {
-            Monitor_NM.nm(board, state);
+            Monitor_NM.nm(DarkChess.board,DarkChess.state);
         }
         if (Var.getMode() == 1) {
-            Monitor_CM.cm(board, state);
+            Monitor_CM.cm(DarkChess.board, DarkChess.state);
         }
-
+        View.textArea.setText(null);
         //4.初始化分数
         System.out.println("红色方的分数为：0");
         System.out.printf("黑色方的分数为：0\n");
         //5.初始化棋谱
         BL.clear();
         SL.clear();
-        BoardList.setBoardlist(board,state,BL,SL);
-
+        BoardList.setBoardlist(DarkChess.board, DarkChess.state, BL, SL);
 
 
     }
-
 
 
 }

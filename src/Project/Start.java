@@ -15,7 +15,6 @@ class Start extends View {
     public static void StartGameUI(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
         DarkChess.n = 0;
         mode(board,state,mode,BL,SL);
-
     }
     public static void newGame(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
         DarkChess.n = 0;
@@ -23,13 +22,17 @@ class Start extends View {
 
     }
     public static void StartGameAI(int[][] board, int[][] state,ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
-        Initializer.Init(board, state, BL, SL);
-        DarkChess.c = 0;
-        DarkChess.round = 2;
-        Var.d = 1;
-        View.all.setVisible(true);
-        View.textArea.setText("第1回合开始");
-        View.redraw(board, state);
+        Var mode = new Var();
+        DarkChess.n = 10;
+        Object[] options ={ "简单模式", "普通模式" };
+        int m = JOptionPane.showOptionDialog(null, "请选择游戏模式", "开始游戏",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        if (m == JOptionPane.OK_OPTION) {
+            DarkChess.k = 0 ;
+        }else{
+            DarkChess.k = 1;
+        }
+        mode(board,state,mode,BL,SL);
+
     }
 
 
@@ -115,29 +118,53 @@ class Start extends View {
     }
 
     public static void mode(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
-        Object[] options ={ "新游戏", "加载棋盘" };
-        int m = JOptionPane.showOptionDialog(null, "请选择游戏模式", "开始游戏",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-        if (m == JOptionPane.OK_OPTION) {
-            mode.setMode(m);
-            Initializer.Init(board, state, BL, SL);
-            DarkChess.c = 0;
-            DarkChess.round = 2;
-            Var.d = 1;
-            View.all.setVisible(true);
-            View.MainMenu.setVisible(false);
-            View.textArea.setText("第1回合开始");
-            View.redraw(board, state);
-        }else{
-            mode.setMode(1);
-            LoadGame(BL,SL);
+        if (DarkChess.n != 10) {
+            Object[] options = {"新游戏", "加载棋盘"};
+            int m = JOptionPane.showOptionDialog(null, "请选择游戏模式", "开始游戏", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (m == JOptionPane.OK_OPTION) {
+                mode.setMode(m);
+                Initializer.Init(board, state, BL, SL);
+                DarkChess.c = 0;
+                DarkChess.round = 2;
+                Var.d = 1;
+                View.MainMenu.setVisible(false);
+                View.all.setVisible(true);
+                View.b.setVisible(true);
+                View.r.setVisible(true);
+                View.rs.setVisible(true);
+                View.c.setVisible(true);
+                View.endGame.setVisible(false);
+                View.textArea.setText("第1回合开始");
+                View.redraw(board, state);
+            } else {
+                mode.setMode(1);
+                LoadGame(BL, SL);
+            }
+            if (mode.getMode() == 0) {
+                System.out.println("");
+            }
+            if (mode.getMode() == 1) {
+                System.out.println("");
+            }
+            System.out.println("游戏即将开始......");
         }
-        if (mode.getMode() == 0) {
-            System.out.println("");
+        if (DarkChess.n == 10) {
+                mode.setMode(0);
+                Initializer.Init(board, state, BL, SL);
+                DarkChess.c = 0;
+                DarkChess.round = 2;
+                Var.d = 1;
+                View.MainMenu.setVisible(false);
+                View.all.setVisible(true);
+                View.b.setVisible(true);
+                View.r.setVisible(true);
+                View.rs.setVisible(true);
+                View.c.setVisible(true);
+                View.endGame.setVisible(false);
+                View.textArea.setText("第1回合开始");
+                View.redraw(board, state);
+
         }
-        if (mode.getMode() == 1) {
-            System.out.println("");
-        }
-        System.out.println("游戏即将开始......");
     }
 
 

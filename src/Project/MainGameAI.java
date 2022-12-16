@@ -83,7 +83,7 @@ public class MainGameAI {
                     board[Var.x0][Var.y0] = 100;
                     if (s == 0) {
                         System.out.printf("*被吃掉的棋子是%s\n", Convert.convert(k));
-                        View.textArea.append("\n*被吃掉的棋子是" + Convert.convert(k));
+                        View.textArea.append("\n*被吃掉的棋子是" + Convert.convertGUI(k));
                     }
                     Var.d = 1;
                     View.setBack(Var.x0,Var.y0);
@@ -100,18 +100,25 @@ public class MainGameAI {
             if(DarkChess.k==1) {
                 AI.AIChoose(board, state);
             }
-            System.out.println("AI已经完成操作");
-            View.textArea.append("\nAI已经完成操作");
+
         }
         if (Var.d == 1) {
             if (DarkChess.round == 2) {
                 if (board[x][y] > 0) {
                     System.out.printf("先手是红色方\n");
                     View.textArea.append("\n先手是红色方");
+                    ImageIcon img1 = new ImageIcon("src\\Game\\redFblack.png");
+                    View.showChessLeft.setIcon(img1);
+                    ImageIcon img2 = new ImageIcon("src\\Game\\redFred.png");
+                    View.showChessRight.setIcon(img2);
                 }
                 if (board[x][y] < 0) {
                     System.out.printf("先手是黑色方\n");
                     View.textArea.append("\n先手是黑色方");
+                    ImageIcon img1 = new ImageIcon("src\\Game\\blackFred.png");
+                    View.showChessLeft.setIcon(img1);
+                    ImageIcon img2 = new ImageIcon("src\\Game\\blackFblack.png");
+                    View.showChessRight.setIcon(img2);
                 }
                 DarkChess.c = board[x][y];
             }
@@ -121,15 +128,34 @@ public class MainGameAI {
             int red =  ScoreDetector.scoreRed(board);
             int black = ScoreDetector.scoreBlack(board);
             System.out.printf("红色方的分数为：%d\n", ScoreDetector.scoreRed(board));
-            View.textArea.append("\n红色方的分数为:"+red);
+
             System.out.printf("黑色方的分数为：%d\n", ScoreDetector.scoreBlack(board));
-            View.textArea.append("\n黑色方的分数为:"+black);
+            View.redScore.setText(String.valueOf(ScoreDetector.scoreRed(board)));
+            View.blackScore.setText(String.valueOf(ScoreDetector.scoreBlack(board)));
             BoardList.setBoardlist(board, state, BL, SL);
             View.redraw(board, state);
             DarkChess.round++;
             if (DarkChess.round % 2 == 0) {
                 System.out.printf("第%d回合开始\n", DarkChess.round / 2);
                 View.textArea.append("\n第"+ DarkChess.round/2+"回合开始");
+                if(DarkChess.c>0){
+                    View.sideB.setIcon(View.sideRed);
+                    View.sideA.setIcon(View.sideNull);
+                }
+                if(DarkChess.c<0){
+                    View.sideB.setIcon(View.sideBlack);
+                    View.sideA.setIcon(View.sideNull);
+                }
+            }
+            if(DarkChess.round % 2 == 1){
+                if(DarkChess.c>0){
+                    View.sideA.setIcon(View.sideBlack);
+                    View.sideB.setIcon(View.sideNull);
+                }
+                if(DarkChess.c<0){
+                    View.sideA.setIcon(View.sideRed);
+                    View.sideB.setIcon(View.sideNull);
+                }
             }
         }
         if (!DrawJudge.dj(board, state, DarkChess.c, DarkChess.round)) {
@@ -149,6 +175,7 @@ public class MainGameAI {
             if (userOption2 == JOptionPane.OK_OPTION) {
                 ShowBoardList.showList(BL, SL);
             }
+            User.showRank();
             DarkChess.round = 2;
             View.b.setVisible(false);
             View.r.setVisible(false);
@@ -168,6 +195,7 @@ public class MainGameAI {
             if (userOption2 == JOptionPane.OK_OPTION) {
                 ShowBoardList.showList(BL, SL);
             }
+            User.showRank();
             DarkChess.round = 2;
             View.b.setVisible(false);
             View.r.setVisible(false);

@@ -2,6 +2,7 @@ package Project;
 
 import javax.swing.*;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -98,9 +99,11 @@ public class Client {
                     }
                 }
                 System.out.printf("红色方的分数为：%d\n", ScoreDetector.scoreRed(board));
-                View.textArea.append("\n红色方的分数为:" + ScoreDetector.scoreRed(board));
+
                 System.out.printf("黑色方的分数为：%d\n", ScoreDetector.scoreBlack(board));
-                View.textArea.append("\n黑色方的分数为:" + ScoreDetector.scoreRed(board));
+                View.redScore.setText(String.valueOf(ScoreDetector.scoreRed(board)));
+                View.blackScore.setText(String.valueOf(ScoreDetector.scoreBlack(board)));
+
                 DarkChess.round++;
                 if (!DrawJudge.dj(board, state, DarkChess.c, DarkChess.round)) {
                     JOptionPane.showMessageDialog(null, "游戏结束，双方平局", "无棋可走", JOptionPane.OK_OPTION);
@@ -126,6 +129,16 @@ public class Client {
                     View.endGame.setVisible(true);
                 }
                 System.out.println(DarkChess.round);
+                if(DarkChess.round % 2 == 1){
+                    if(DarkChess.c>0){
+                        View.sideA.setIcon(View.sideBlack);
+                        View.sideB.setIcon(View.sideNull);
+                    }
+                    if(DarkChess.c<0){
+                        View.sideA.setIcon(View.sideRed);
+                        View.sideB.setIcon(View.sideNull);
+                    }
+                }
 
             }
         }).start();
@@ -134,25 +147,34 @@ public class Client {
     /*
      * 客户端
      * */
-    public static void main(String[] args) throws IOException {
-        int[][] board = new int[8][4];
-        int[][] state = new int[8][4];
+    public static void main(String[] args) throws IOException, InterruptedException, InvocationTargetException {
+        int[][] board = DarkChess.board;
+        int[][] state = DarkChess.state;
         ArrayList<int[][]> BL = new ArrayList<>();
         ArrayList<int[][]> SL = new ArrayList<>();
         Var.d = 1;
         DarkChess.c = 0;
         DarkChess.n = 11;
         View.player = 2;
-        View.createView(board, state, BL, SL);
-        View.textArea.setText(null);
+        Var mode = new Var();
+        View.all.setVisible(true);
         //与服务器进行连接
         try {
             Client.socket = new Socket("127.0.0.1", 12138);
             Client.send();
             DarkChess.round = 1;
+            View.createMainMenu(board,state,mode,BL,SL);
+            View.createView(board, state, BL, SL);
             Client.inDataFromServer(board, state);
+            View.textArea.setText(null);
+            View.MainMenu.setVisible(false);
             System.out.println("xxx");
-            View.frame.setVisible(true);
+            View.all.setVisible(true);
+            View.b.setVisible(true);
+            View.r.setVisible(true);
+            View.rs.setVisible(true);
+            View.c.setVisible(true);
+            View.endGame.setVisible(false);
             View.textArea.setText("第1回合开始");
 
         } catch (Exception e) {

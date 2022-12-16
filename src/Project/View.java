@@ -27,6 +27,7 @@ public class View {
     public static JButton r = new JButton("悔棋");
     public static JButton rs = new JButton("重新开始");
     public static JButton c = new JButton("作弊模式");
+    public static JButton ol = new JButton("开启服务器");
 
     public static JPanel all = new JPanel();
     public static JLabel showChessLeft = new JLabel();
@@ -48,6 +49,7 @@ public class View {
     public static JButton loginTo = new JButton();
     public static JButton exit = new JButton();
     public static JButton startGameAI = new JButton();
+    public static JTextArea welcome = new JTextArea();
     //-----------------------------------------------
 
     public static JLabel sideA = new JLabel();
@@ -109,11 +111,9 @@ public class View {
                 loadGame.setContentAreaFilled(false);
 
                 onlineGame.addActionListener(e -> {
-                    try {
-                        Server.startServer(board, state, BL, SL);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    View.MainMenu.setVisible(false);
+                    View.all.setVisible(true);
+                    ol.setVisible(true);
                 });
                 onlineGame.setContentAreaFilled(false);
                 onlineGame.setBounds(608, 163, 245, 59);
@@ -133,7 +133,7 @@ public class View {
                 exit.setContentAreaFilled(false);
                 exit.setBounds(877, 343, 59, 59);
 
-                rank.setBounds(100, 200, 300, 250);
+                rank.setBounds(110, 200, 350, 250);
                 rank.setBackground(new Color(52, 51, 52));
                 rank.setLineWrap(true);
                 rank.setFont(new Font("Times New Roman", Font.BOLD, 20));
@@ -141,7 +141,12 @@ public class View {
                 MainMenu.add(rank);
                 User.showRank();
 
-
+                welcome.setBounds(80, 450, 600, 100);
+                welcome.setBackground(new Color(52, 51, 52));
+                welcome.setFont(new Font("微软雅黑", Font.BOLD, 20));
+                welcome.setForeground(Color.WHITE);
+                welcome.setText("欢迎回来！");
+                MainMenu.add(welcome);
                 MainMenu.add(startGame);
                 MainMenu.add(startGameAI);
                 MainMenu.add(onlineGame);
@@ -149,7 +154,8 @@ public class View {
                 MainMenu.add(exit);
                 frame.add(MainMenu);
             });
-        } catch (InterruptedException | InvocationTargetException e) {
+        } catch (InterruptedException |
+                 InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
@@ -182,7 +188,7 @@ public class View {
                 textArea.setLineWrap(true);
 
                 // 设置字体
-                textArea.setFont(new Font(null, Font.PLAIN, 18));
+                textArea.setFont(new Font("微软雅黑", Font.BOLD, 18));
                 JScrollPane jScrollPane = new JScrollPane(
                         textArea,
                         ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
@@ -413,8 +419,19 @@ public class View {
                 });
                 c.setBounds(580, 330, 100, 35);
                 c.setBackground(new Color(255, 255, 255));
-                all.add(c);
 
+                ol.addActionListener(e -> {
+                    try {
+                        Server.startServer(board, state, BL, SL);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                ol.setBounds(580, 380, 100, 35);
+                ol.setBackground(new Color(255, 255, 255));
+                ol.setVisible(false);
+                all.add(c);
+                all.add(ol);
                 all.setLayout(null);
                 all.add(showChessLeft);
                 all.add(showChessRight);
@@ -478,12 +495,9 @@ public class View {
     public static void restart(ArrayList<int[][]> BL, ArrayList<int[][]> SL, int[][] board, int[][] state) {
         int userOption = JOptionPane.showConfirmDialog(null, "是否重新开始？", "重新开始", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (userOption == JOptionPane.OK_OPTION) {
-            System.out.println("游戏即将重新开始...");
-            DarkChess.round = 2;
-            DarkChess.c = 0;
-            Var.d = 1;
-            Initializer.Init(board, state, BL, SL);
-            redraw(board, state);
+            Var mode = new Var();
+            Start.mode(board,state,mode,BL,SL);
+
         }
     }
 
