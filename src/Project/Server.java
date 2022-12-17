@@ -11,8 +11,11 @@ public class Server {
     public static ServerSocket server;
     public static Socket socket;
 
+    public static Thread t;
+
     public static void startServer(int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) throws IOException {
         //搭建服务器
+
 
         server = new ServerSocket(12138);
         System.out.println("服务器开启成功");
@@ -20,19 +23,22 @@ public class Server {
 
 
 
-            Thread t = new Thread(() -> {
+            t = new Thread(() -> {
                 try {
                     //等待客户连接
                     socket = server.accept();
                     System.out.println("一个客户端连接了");
                     //向客户端发送消息
                     //1.获取输出流
+
                     Initializer.Init(board, state, BL, SL);
                     DarkChess.c = 0;
                     DarkChess.round = 2;
                     Var.d = 1;
                     View.player = 1;
                     DarkChess.n = 11;
+                    View.showChessLeft.setIcon(View.img0);
+                    View.showChessRight.setIcon(View.img0);
 
 
                     //接收客户端发来的消息
@@ -42,18 +48,19 @@ public class Server {
                     System.out.println("客户端消息：" + text);
 
 
-                    outDataFromServer(board, state);
-                    View.frame.setVisible(true);
+                    outDataFromServer(DarkChess.board, DarkChess.state);
+
                     View.textArea.setText("第1回合开始");
-                    View.redraw(board, state);
+                    View.redraw(DarkChess.board, DarkChess.state);
 
                     View.player = 1;
-                    inDataFromClient(board,state);
+                    inDataFromClient(DarkChess.board,DarkChess.state);
 
                 } catch (IOException ignored) {
                 }
             });
             t.start();
+
 
 
 
@@ -120,6 +127,7 @@ public class Server {
                         System.out.printf("%d ", state[i][j]);
                     }
                 }
+                AudioPlayer.playSound("src\\Audio\\click.wav");
                 DarkChess.round++;
                 System.out.printf("红色方的分数为：%d\n", ScoreDetector.scoreRed(board));
 

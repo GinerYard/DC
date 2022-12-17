@@ -1,12 +1,11 @@
 package Project;
 
 
-import com.sun.tools.javac.Main;
-
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -14,9 +13,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import java.util.Scanner;
+import java.util.concurrent.Future;
 
 public class View {
     public static int player;
+    public static AudioPlayer bgm;
+    public static AudioPlayer game;
 
     public static JFrame frame = new JFrame("翻翻棋");
     public static JPanel p = new JPanel(new GridLayout(8, 4));
@@ -46,7 +48,7 @@ public class View {
 
     public static JTextArea rank = new JTextArea();
     public static JButton login = new JButton();
-    public static JButton loginTo = new JButton();
+    public static JButton connect = new JButton();
     public static JButton exit = new JButton();
     public static JButton startGameAI = new JButton();
     public static JTextArea welcome = new JTextArea();
@@ -78,27 +80,85 @@ public class View {
     public static ImageIcon sideBlack = new ImageIcon("src\\Game\\SideB.png");
     public static ImageIcon sideNull = new ImageIcon("src\\Game\\SideN.png");
 
+    public static ImageIcon img0 = new ImageIcon("src\\Game\\null.png");
 
-    public static void createMainMenu(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) throws InterruptedException, InvocationTargetException {
+
+    public static JPanel wel = new JPanel();
+
+    public static JButton enter = new JButton();
+
+
+    public static void welcome() {
         try {
             SwingUtilities.invokeAndWait(() -> {
+
                 JFrame.setDefaultLookAndFeelDecorated(true);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
                 frame.setBounds(320, 180, 1037, 583);
+                Toolkit tk = Toolkit.getDefaultToolkit();
+                //获取图片 三种图片格式都可以
+                java.awt.Image img = tk.getImage("src\\View\\image.png");
+                // 给窗体设置图标
+                frame.setIconImage(img);
+
+                wel = new JPanel() {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+                        ImageIcon img = new ImageIcon("src\\View\\Start.png");
+                        img.paintIcon(this, g, -5, 0);
+                    }
+                };
+                wel.setLayout(null);
+                wel.setBounds(0, 0, 1037, 583);
+                enter.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        wel.setVisible(false);
+                        bgm.stop();
+                        MainMenu.setVisible(true);
+                    }
+                });
+                enter.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        wel.setVisible(false);
+                        MainMenu.setVisible(true);
+                    }
+                });
+                enter.setContentAreaFilled(false);
+                enter.setBounds(0, 0, 1037, 583);
+                wel.add(enter);
+                frame.add(wel);
+                bgm = AudioPlayer.playBgm("src\\Audio\\majSoul.wav");
+
+
+            });
+        } catch (InterruptedException |
+                 InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static void createMainMenu(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) throws InterruptedException, InvocationTargetException {
+        try {
+            SwingUtilities.invokeAndWait(() -> {
+                JFrame.setDefaultLookAndFeelDecorated(true);
                 MainMenu = new JPanel() {
                     @Override
                     protected void paintComponent(Graphics g) {
                         super.paintComponent(g);
-                        ImageIcon img = new ImageIcon("D:\\Project\\Platform.png");
+                        ImageIcon img = new ImageIcon("src\\View\\Platform.png");
                         img.paintIcon(this, g, -3, -3);
                     }
                 };
 
 
                 MainMenu.setLayout(null);
-                MainMenu.setBounds(320, 180, 1037, 583);
+                MainMenu.setBounds(0, 0, 1037, 583);
 
                 startGame.addActionListener(e -> {
                     Start.StartGameUI(board, state, mode, BL, SL);
@@ -113,10 +173,36 @@ public class View {
                 onlineGame.addActionListener(e -> {
                     View.MainMenu.setVisible(false);
                     View.all.setVisible(true);
+                    View.b.setVisible(true);
+                    View.r.setVisible(true);
+                    View.rs.setVisible(true);
+                    View.c.setVisible(true);
+                    View.endGame.setVisible(false);
+                    View.textArea.setText(null);
                     ol.setVisible(true);
+                    View.showChessLeft.setIcon(View.img0);
+                    View.showChessRight.setIcon(View.img0);
+                    sideA.setIcon(sideNull);
+                    sideB.setIcon(sideNull);
+                    int[][] a = new int[8][4];
+                    int[][] b = new int[8][4];
+                    redraw(a,b);
+                    View.redScore.setText("0");
+                    View.blackScore.setText("0");
                 });
                 onlineGame.setContentAreaFilled(false);
                 onlineGame.setBounds(608, 163, 245, 59);
+
+                connect.addActionListener(e -> {
+                    try {
+                        Client.startClient();
+                    } catch (IOException | InterruptedException | InvocationTargetException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                connect.setContentAreaFilled(false);
+                connect.setBounds(870, 163, 59, 59);
+
                 startGameAI.addActionListener(e -> {
                     Start.StartGameAI(board, state, BL, SL);
                 });
@@ -150,8 +236,11 @@ public class View {
                 MainMenu.add(startGame);
                 MainMenu.add(startGameAI);
                 MainMenu.add(onlineGame);
+                MainMenu.add(connect);
                 MainMenu.add(login);
                 MainMenu.add(exit);
+
+
                 frame.add(MainMenu);
             });
         } catch (InterruptedException |
@@ -210,7 +299,7 @@ public class View {
                 all.add(blackScore);
                 showChessLeft.setBounds(85, 52, 55, 375);
                 showChessRight.setBounds(447, 160, 55, 375);
-                ImageIcon img0 = new ImageIcon("src\\Game\\null.png");
+
                 showChessLeft.setIcon(img0);
                 showChessRight.setIcon(img0);
                 p.setBounds(187, 55, 240, 475);
@@ -285,6 +374,7 @@ public class View {
                         t.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
+
                                 if (DarkChess.n == 11) {
                                     if (player == 2) {
                                         try {
@@ -384,6 +474,11 @@ public class View {
                 b.setBackground(new Color(255, 255, 255));
                 all.add(b);
                 endGame.addActionListener(e -> {
+                    if(game!=null){
+                    game.stop();}
+                    if(Server.t.isAlive()){
+                        Server.t.interrupt();
+                    }
                     all.setVisible(false);
                     MainMenu.setVisible(true);
                 });
@@ -455,8 +550,9 @@ public class View {
             for (int j = 0; j < 4; j++) {
                 labels[i][j].setIcon(SetImg.setImg(i, j, board, state));
             }
-
         }
+        View.redScore.setText(String.valueOf(ScoreDetector.scoreRed(board)));
+        View.blackScore.setText(String.valueOf(ScoreDetector.scoreBlack(board)));
     }
 
     public static void setBack(int x, int y) {
@@ -496,7 +592,7 @@ public class View {
         int userOption = JOptionPane.showConfirmDialog(null, "是否重新开始？", "重新开始", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (userOption == JOptionPane.OK_OPTION) {
             Var mode = new Var();
-            Start.mode(board,state,mode,BL,SL);
+            Start.mode(board, state, mode, BL, SL);
 
         }
     }
@@ -516,6 +612,7 @@ public class View {
         View.r.setVisible(false);
         View.rs.setVisible(false);
         View.c.setVisible(false);
+
         endGame.setVisible(true);
     }
 

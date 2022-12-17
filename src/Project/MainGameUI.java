@@ -41,6 +41,7 @@ public class MainGameUI {
                 }
             }
             if (state[x][y] == 0) {
+                AudioPlayer.playSound("src\\Audio\\click.wav");
                 state[x][y] = 1;
             }
         }
@@ -58,6 +59,7 @@ public class MainGameUI {
                 View.textArea.append("\n这不是一个合法的位置！");
             }
             if (MoveJudge.mj(Var.x0, Var.y0, x, y, board, state)) {
+                AudioPlayer.playSound("src\\Audio\\click.wav");
                 board[x][y] = board[Var.x0][Var.y0];
                 board[Var.x0][Var.y0] = 100;
                 Var.d = 1;
@@ -78,6 +80,7 @@ public class MainGameUI {
                 View.textArea.append("\n这不是一个合法的位置！");
             }
             if (CannonJudge.cj(Var.x0, Var.y0, x, y, board, state)) {
+                AudioPlayer.playSound("src\\Audio\\click.wav");
                 int k = board[x][y];
                 int s = state[x][y];
                 board[x][y] = board[Var.x0][Var.y0];

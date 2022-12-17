@@ -44,6 +44,8 @@ class Start extends View {
         if(k==1){
             return;
         }
+        BL.clear();
+        SL.clear();
         for (int i = 0; i < L.size() / 2; i++) {
             BL.add(L.get(i));
         }
@@ -60,7 +62,7 @@ class Start extends View {
                 }
             }
         }
-        DarkChess.round = BL.size() + 1;
+        DarkChess.round = BL.size()+2;
         System.out.println(DarkChess.c);
         System.out.println(DarkChess.round);
         DarkChess.board = BL.get(BL.size() - 1);
@@ -79,6 +81,7 @@ class Start extends View {
         }
         View.redScore.setText(String.valueOf(ScoreDetector.scoreRed(DarkChess.board)));
         View.blackScore.setText(String.valueOf(ScoreDetector.scoreBlack(DarkChess.board)));
+        System.out.println(DarkChess.round);
         if (DarkChess.round % 2 == 0) {
             System.out.printf("第%d回合开始\n", DarkChess.round / 2);
             View.textArea.append("\n第"+ DarkChess.round/2+"回合开始");
@@ -110,11 +113,13 @@ class Start extends View {
         View.r.setVisible(true);
         View.rs.setVisible(true);
         View.c.setVisible(true);
+        View.ol.setVisible(false);
         View.endGame.setVisible(false);
         View.redraw(DarkChess.board, DarkChess.state);
+        game = AudioPlayer.playBgm("src\\Audio\\game.wav");
         Monitor_NM.nm(DarkChess.board, DarkChess.state);
+        View.textArea.setText(null);
         ShowBoardList.showList(BL,SL);
-
     }
 
     public static void mode(int[][] board, int[][] state, Var mode, ArrayList<int[][]> BL, ArrayList<int[][]> SL) {
@@ -123,6 +128,7 @@ class Start extends View {
             int m = JOptionPane.showOptionDialog(null, "请选择游戏模式", "开始游戏", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             if (m == JOptionPane.OK_OPTION) {
                 mode.setMode(m);
+
                 Initializer.Init(board, state, BL, SL);
                 DarkChess.c = 0;
                 DarkChess.round = 2;
@@ -133,9 +139,15 @@ class Start extends View {
                 View.r.setVisible(true);
                 View.rs.setVisible(true);
                 View.c.setVisible(true);
+                View.ol.setVisible(false);
                 View.endGame.setVisible(false);
+                View.showChessLeft.setIcon(img0);
+                View.showChessRight.setIcon(img0);
+                View.sideA.setIcon(sideNull);
+                View.sideB.setIcon(sideNull);
                 View.textArea.setText("第1回合开始");
-                View.redraw(board, state);
+                game = AudioPlayer.playBgm("src\\Audio\\game.wav");
+                View.redraw(DarkChess.board, DarkChess.state);
             } else {
                 mode.setMode(1);
                 LoadGame(BL, SL);
@@ -160,9 +172,15 @@ class Start extends View {
                 View.r.setVisible(true);
                 View.rs.setVisible(true);
                 View.c.setVisible(true);
+                View.ol.setVisible(false);
                 View.endGame.setVisible(false);
+                View.showChessLeft.setIcon(img0);
+                View.showChessRight.setIcon(img0);
+                View.sideA.setIcon(sideNull);
+                View.sideB.setIcon(sideNull);
                 View.textArea.setText("第1回合开始");
-                View.redraw(board, state);
+                game = AudioPlayer.playBgm("src\\Audio\\AI.wav");
+                View.redraw(DarkChess.board, DarkChess.state);
 
         }
     }

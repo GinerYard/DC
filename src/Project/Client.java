@@ -98,6 +98,7 @@ public class Client {
                         }
                     }
                 }
+                AudioPlayer.playSound("src\\Audio\\click.wav");
                 System.out.printf("红色方的分数为：%d\n", ScoreDetector.scoreRed(board));
 
                 System.out.printf("黑色方的分数为：%d\n", ScoreDetector.scoreBlack(board));
@@ -147,7 +148,7 @@ public class Client {
     /*
      * 客户端
      * */
-    public static void main(String[] args) throws IOException, InterruptedException, InvocationTargetException {
+    public static void startClient() throws IOException, InterruptedException, InvocationTargetException {
         int[][] board = DarkChess.board;
         int[][] state = DarkChess.state;
         ArrayList<int[][]> BL = new ArrayList<>();
@@ -163,8 +164,6 @@ public class Client {
             Client.socket = new Socket("127.0.0.1", 12138);
             Client.send();
             DarkChess.round = 1;
-            View.createMainMenu(board,state,mode,BL,SL);
-            View.createView(board, state, BL, SL);
             Client.inDataFromServer(board, state);
             View.textArea.setText(null);
             View.MainMenu.setVisible(false);

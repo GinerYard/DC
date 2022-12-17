@@ -1,5 +1,7 @@
 package Project;
 
+import org.junit.jupiter.api.Test;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -17,7 +19,10 @@ public class DarkChess {
 
 
 
+
+
     public static void main(String[] args) throws IOException, InterruptedException, InvocationTargetException {
+
 
 
 //        JFrame frame = new JFrame();
@@ -39,6 +44,7 @@ public class DarkChess {
         Var mode = new Var();
         Var.clock=-1;
         mode.setMode(0);
+        View.welcome();
         View.createMainMenu(board,state,mode,BL,SL);
         View.createView(board,state,BL,SL);
         System.out.println("欢迎游玩纯纯摆烂人摸鱼制作的小成本翻棋！");

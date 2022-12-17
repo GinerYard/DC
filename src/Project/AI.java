@@ -235,19 +235,25 @@ public class AI {
                 }
             }
         }
+        System.out.println(x+","+y);
         //------------------------------------------------------------------
         if(state[x][y]==1&& Math.abs(board[x][y]) != 7) {
             int[][] sM = new int[8][4];
             int m = 0;
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 4; j++) {
+
                     if (MoveJudge.mj(x, y, i, j, board, state) && board[i][j]!=100) {
                         sM[i][j] = Score.score(board[i][j]);
-                        m = Math.max(m,sM[i][j]);
+                    } else {
+                        if(!MoveJudge.mj(x, y, i, j, board, state)){
+                            sM[i][j]=-100;
+                        }else{
+                        sM[i][j] = 1;
+                        }
                     }
-                    else{
-                        sM[i][j] = 0;
-                    }
+                    m = Math.max(m,sM[i][j]);
+                    System.out.println("m="+m);
                 }
             }
             int x1 = -1;
@@ -262,6 +268,7 @@ public class AI {
                     }
                 }
             }
+            System.out.println("x1="+x1+","+"y1="+y1);
             board[x1][y1]=board[x][y];
             board[x][y]=100;
         }
@@ -274,10 +281,15 @@ public class AI {
                     if (CannonJudge.cj(x, y, i, j, board, state) && state[i][j] == 0) {
                         sM[i][j] = 5;
                         m = Math.max(m,5);
-                    }
+                    }else{
                     if (CannonJudge.cj(x, y, i, j, board, state) && state[i][j] == 1) {
                         sM[i][j] = Score.score(board[i][j])+1;
                         m = Math.max(m,sM[i][j]);
+                    }
+                    if(!CannonJudge.cj(x, y, i, j, board, state)){
+                        sM[i][j]=-100;
+                        m = Math.max(m,sM[i][j]);
+                    }
                     }
                 }
             }
@@ -293,6 +305,7 @@ public class AI {
                     }
                 }
             }
+            System.out.println("x1="+x1+","+"y1="+y1);
             int k = board[x1][y1];
             int s = state[x1][y1];
             board[x1][y1] = board[x][y];
