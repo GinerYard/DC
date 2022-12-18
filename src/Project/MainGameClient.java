@@ -47,7 +47,7 @@ public class MainGameClient {
                 }
             }
             if (state[x][y] == 0) {
-                AudioPlayer.playSound("src\\Audio\\click.wav");
+                AudioPlayer.playSound("D:\\Project\\Audio\\click.wav");
                 state[x][y] = 1;
             }
         }
@@ -65,7 +65,7 @@ public class MainGameClient {
                 View.textArea.append("\n这不是一个合法的位置！");
             }
             if (MoveJudge.mj(Var.x0, Var.y0, x, y, board, state)) {
-                AudioPlayer.playSound("src\\Audio\\click.wav");
+                AudioPlayer.playSound("D:\\Project\\Audio\\click.wav");
                 board[x][y] = board[Var.x0][Var.y0];
                 board[Var.x0][Var.y0] = 100;
                 Var.d = 1;
@@ -87,7 +87,7 @@ public class MainGameClient {
                 View.textArea.append("\n这不是一个合法的位置！");
             }
             if (CannonJudge.cj(Var.x0, Var.y0, x, y, board, state)) {
-                AudioPlayer.playSound("src\\Audio\\click.wav");
+                AudioPlayer.playSound("D:\\Project\\Audio\\click.wav");
                 int k = board[x][y];
                 int s = state[x][y];
                 board[x][y] = board[Var.x0][Var.y0];
@@ -108,17 +108,17 @@ public class MainGameClient {
                 if (board[x][y] > 0) {
                     System.out.printf("先手是红色方\n");
                     View.textArea.append("\n先手是红色方");
-                    ImageIcon img1 = new ImageIcon("src\\Game\\redFblack.png");
+                    ImageIcon img1 = new ImageIcon("D:\\Project\\Game\\redFblack.png");
                     View.showChessLeft.setIcon(img1);
-                    ImageIcon img2 = new ImageIcon("src\\Game\\redFred.png");
+                    ImageIcon img2 = new ImageIcon("D:\\Project\\Game\\redFred.png");
                     View.showChessRight.setIcon(img2);
                 }
                 if (board[x][y] < 0) {
                     System.out.printf("先手是黑色方\n");
                     View.textArea.append("\n先手是黑色方");
-                    ImageIcon img1 = new ImageIcon("src\\Game\\blackFred.png");
+                    ImageIcon img1 = new ImageIcon("D:\\Project\\Game\\blackFred.png");
                     View.showChessLeft.setIcon(img1);
-                    ImageIcon img2 = new ImageIcon("src\\Game\\blackFblack.png");
+                    ImageIcon img2 = new ImageIcon("D:\\Project\\Game\\blackFblack.png");
                     View.showChessRight.setIcon(img2);
                 }
                 DarkChess.c = board[x][y];
@@ -224,7 +224,7 @@ public class MainGameClient {
                 }
             }
             if (state[x][y] == 0) {
-                AudioPlayer.playSound("src\\Audio\\click.wav");
+                AudioPlayer.playSound("D:\\Project\\Audio\\click.wav");
                 state[x][y] = 1;
             }
         }
@@ -242,7 +242,7 @@ public class MainGameClient {
                 View.textArea.append("\n这不是一个合法的位置！");
             }
             if (MoveJudge.mj(Var.x0, Var.y0, x, y, board, state)) {
-                AudioPlayer.playSound("src\\Audio\\click.wav");
+                AudioPlayer.playSound("D:\\Project\\Audio\\click.wav");
                 board[x][y] = board[Var.x0][Var.y0];
                 board[Var.x0][Var.y0] = 100;
                 Var.d = 1;
@@ -264,7 +264,7 @@ public class MainGameClient {
                 View.textArea.append("\n这不是一个合法的位置！");
             }
             if (CannonJudge.cj(Var.x0, Var.y0, x, y, board, state)) {
-                AudioPlayer.playSound("src\\Audio\\click.wav");
+                AudioPlayer.playSound("D:\\Project\\Audio\\click.wav");
                 int k = board[x][y];
                 int s = state[x][y];
                 board[x][y] = board[Var.x0][Var.y0];
@@ -285,17 +285,17 @@ public class MainGameClient {
                 if (board[x][y] > 0) {
                     System.out.printf("先手是红色方\n");
                     View.textArea.append("\n先手是红色方");
-                    ImageIcon img1 = new ImageIcon("src\\Game\\redFblack.png");
+                    ImageIcon img1 = new ImageIcon("D:\\Project\\Game\\redFblack.png");
                     View.showChessLeft.setIcon(img1);
-                    ImageIcon img2 = new ImageIcon("src\\Game\\redFred.png");
+                    ImageIcon img2 = new ImageIcon("D:\\Project\\Game\\redFred.png");
                     View.showChessRight.setIcon(img2);
                 }
                 if (board[x][y] < 0) {
                     System.out.printf("先手是黑色方\n");
                     View.textArea.append("\n先手是黑色方");
-                    ImageIcon img1 = new ImageIcon("src\\Game\\blackFred.png");
+                    ImageIcon img1 = new ImageIcon("D:\\Project\\Game\\blackFred.png");
                     View.showChessLeft.setIcon(img1);
-                    ImageIcon img2 = new ImageIcon("src\\Game\\blackFblack.png");
+                    ImageIcon img2 = new ImageIcon("D:\\Project\\Game\\blackFblack.png");
                     View.showChessRight.setIcon(img2);
                 }
                 DarkChess.c = board[x][y];
@@ -337,11 +337,7 @@ public class MainGameClient {
             Server.outDataFromServer(board, state);
 
         }
-        if (!DrawJudge.dj(board, state, DarkChess.c, DarkChess.round)) {
-            JOptionPane.showMessageDialog(null, "游戏结束，双方平局", "无棋可走", JOptionPane.OK_OPTION);
-            Var.d = 0;
-            View.frame.setVisible(false);
-        }
+
         if (ScoreDetector.scoreRed(board) >= 60) {
             Var.d = 0;
             int userOption2 = JOptionPane.showConfirmDialog(null, "游戏结束，红色方胜利！是否查看棋谱？", "结束游戏", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE);

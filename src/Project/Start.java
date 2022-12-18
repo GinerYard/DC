@@ -31,6 +31,7 @@ class Start extends View {
         }else{
             DarkChess.k = 1;
         }
+//        AI.progressBar.setVisible(true);
         mode(board,state,mode,BL,SL);
 
     }
@@ -68,15 +69,15 @@ class Start extends View {
         DarkChess.board = BL.get(BL.size() - 1);
         DarkChess.state = SL.get(SL.size() - 1);
         if (DarkChess.c > 0) {
-            ImageIcon img1 = new ImageIcon("src\\Game\\redFblack.png");
+            ImageIcon img1 = new ImageIcon("D:\\Project\\Game\\redFblack.png");
             View.showChessLeft.setIcon(img1);
-            ImageIcon img2 = new ImageIcon("src\\Game\\redFred.png");
+            ImageIcon img2 = new ImageIcon("D:\\Project\\Game\\redFred.png");
             View.showChessRight.setIcon(img2);
         }
         if (DarkChess.c < 0) {
-            ImageIcon img1 = new ImageIcon("src\\Game\\blackFred.png");
+            ImageIcon img1 = new ImageIcon("D:\\Project\\Game\\blackFred.png");
             View.showChessLeft.setIcon(img1);
-            ImageIcon img2 = new ImageIcon("src\\Game\\blackFblack.png");
+            ImageIcon img2 = new ImageIcon("D:\\Project\\Game\\blackFblack.png");
             View.showChessRight.setIcon(img2);
         }
         View.redScore.setText(String.valueOf(ScoreDetector.scoreRed(DarkChess.board)));
@@ -116,7 +117,7 @@ class Start extends View {
         View.ol.setVisible(false);
         View.endGame.setVisible(false);
         View.redraw(DarkChess.board, DarkChess.state);
-        game = AudioPlayer.playBgm("src\\Audio\\game.wav");
+        game = AudioPlayer.playBgm("D:\\Project\\Audio\\game.wav");
         Monitor_NM.nm(DarkChess.board, DarkChess.state);
         View.textArea.setText(null);
         ShowBoardList.showList(BL,SL);
@@ -134,6 +135,8 @@ class Start extends View {
                 DarkChess.round = 2;
                 Var.d = 1;
                 View.MainMenu.setVisible(false);
+
+                View.frame.setVisible(true);
                 View.all.setVisible(true);
                 View.b.setVisible(true);
                 View.r.setVisible(true);
@@ -146,7 +149,7 @@ class Start extends View {
                 View.sideA.setIcon(sideNull);
                 View.sideB.setIcon(sideNull);
                 View.textArea.setText("第1回合开始");
-                game = AudioPlayer.playBgm("src\\Audio\\game.wav");
+                game = AudioPlayer.playBgm("D:\\Project\\Audio\\game.wav");
                 View.redraw(DarkChess.board, DarkChess.state);
             } else {
                 mode.setMode(1);
@@ -179,7 +182,7 @@ class Start extends View {
                 View.sideA.setIcon(sideNull);
                 View.sideB.setIcon(sideNull);
                 View.textArea.setText("第1回合开始");
-                game = AudioPlayer.playBgm("src\\Audio\\AI.wav");
+                game = AudioPlayer.playBgm("D:\\Project\\Audio\\AI.wav");
                 View.redraw(DarkChess.board, DarkChess.state);
 
         }

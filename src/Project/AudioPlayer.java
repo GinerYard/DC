@@ -24,10 +24,6 @@ import static javax.sound.sampled.AudioSystem.getAudioInputStream;
 
 public class AudioPlayer {
 
-    /**
-     * play and loop bgm
-     */
-
     private volatile boolean isCanceled = false;
 
     private Thread currentThread = null;
@@ -43,9 +39,7 @@ public class AudioPlayer {
         return player;
     }
 
-    /**
-     * play sound
-     */
+
     public static AudioPlayer playSound(String path) {
         AudioPlayer player = new AudioPlayer();
         player.currentThread = new Thread(() -> player.play(path));

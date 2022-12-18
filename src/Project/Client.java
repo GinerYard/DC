@@ -98,7 +98,7 @@ public class Client {
                         }
                     }
                 }
-                AudioPlayer.playSound("src\\Audio\\click.wav");
+                AudioPlayer.playSound("D:\\Project\\Audio\\click.wav");
                 System.out.printf("红色方的分数为：%d\n", ScoreDetector.scoreRed(board));
 
                 System.out.printf("黑色方的分数为：%d\n", ScoreDetector.scoreBlack(board));

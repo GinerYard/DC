@@ -13,6 +13,9 @@ public class Server {
 
     public static Thread t;
 
+
+
+
     public static void startServer(int[][] board, int[][] state, ArrayList<int[][]> BL, ArrayList<int[][]> SL) throws IOException {
         //搭建服务器
 
@@ -127,7 +130,7 @@ public class Server {
                         System.out.printf("%d ", state[i][j]);
                     }
                 }
-                AudioPlayer.playSound("src\\Audio\\click.wav");
+                AudioPlayer.playSound("D:\\Project\\Audio\\click.wav");
                 DarkChess.round++;
                 System.out.printf("红色方的分数为：%d\n", ScoreDetector.scoreRed(board));
 

@@ -31,6 +31,8 @@ public class View {
     public static JButton c = new JButton("作弊模式");
     public static JButton ol = new JButton("开启服务器");
 
+
+
     public static JPanel all = new JPanel();
     public static JLabel showChessLeft = new JLabel();
     public static JLabel showChessRight = new JLabel();
@@ -76,11 +78,11 @@ public class View {
 
     public static JLabel blackScore = new JLabel();
 
-    public static ImageIcon sideRed = new ImageIcon("src\\Game\\SideR.png");
-    public static ImageIcon sideBlack = new ImageIcon("src\\Game\\SideB.png");
-    public static ImageIcon sideNull = new ImageIcon("src\\Game\\SideN.png");
+    public static ImageIcon sideRed = new ImageIcon("D:\\Project\\Game\\SideR.png");
+    public static ImageIcon sideBlack = new ImageIcon("D:\\Project\\Game\\SideB.png");
+    public static ImageIcon sideNull = new ImageIcon("D:\\Project\\Game\\SideN.png");
 
-    public static ImageIcon img0 = new ImageIcon("src\\Game\\null.png");
+    public static ImageIcon img0 = new ImageIcon("D:\\Project\\Game\\null.png");
 
 
     public static JPanel wel = new JPanel();
@@ -99,7 +101,7 @@ public class View {
                 frame.setBounds(320, 180, 1037, 583);
                 Toolkit tk = Toolkit.getDefaultToolkit();
                 //获取图片 三种图片格式都可以
-                java.awt.Image img = tk.getImage("src\\View\\image.png");
+                java.awt.Image img = tk.getImage("D:\\Project\\View\\image.png");
                 // 给窗体设置图标
                 frame.setIconImage(img);
 
@@ -107,7 +109,7 @@ public class View {
                     @Override
                     protected void paintComponent(Graphics g) {
                         super.paintComponent(g);
-                        ImageIcon img = new ImageIcon("src\\View\\Start.png");
+                        ImageIcon img = new ImageIcon("D:\\Project\\View\\Start.png");
                         img.paintIcon(this, g, -5, 0);
                     }
                 };
@@ -132,7 +134,7 @@ public class View {
                 enter.setBounds(0, 0, 1037, 583);
                 wel.add(enter);
                 frame.add(wel);
-                bgm = AudioPlayer.playBgm("src\\Audio\\majSoul.wav");
+                bgm = AudioPlayer.playBgm("D:\\Project\\Audio\\majSoul.wav");
 
 
             });
@@ -151,7 +153,7 @@ public class View {
                     @Override
                     protected void paintComponent(Graphics g) {
                         super.paintComponent(g);
-                        ImageIcon img = new ImageIcon("src\\View\\Platform.png");
+                        ImageIcon img = new ImageIcon("D:\\Project\\View\\Platform.png");
                         img.paintIcon(this, g, -3, -3);
                     }
                 };
@@ -221,6 +223,7 @@ public class View {
 
                 rank.setBounds(110, 200, 350, 250);
                 rank.setBackground(new Color(52, 51, 52));
+
                 rank.setLineWrap(true);
                 rank.setFont(new Font("Times New Roman", Font.BOLD, 20));
                 rank.setForeground(Color.WHITE);
@@ -262,10 +265,11 @@ public class View {
                     @Override
                     protected void paintComponent(Graphics g) {
                         super.paintComponent(g);
-                        ImageIcon img = new ImageIcon("src\\Game\\Game.png");
+                        ImageIcon img = new ImageIcon("D:\\Project\\Game\\Game.png");
                         img.paintIcon(this, g, -3, -3);
                     }
                 };
+
 
 
                 // 创建及设置窗口
@@ -476,9 +480,10 @@ public class View {
                 endGame.addActionListener(e -> {
                     if(game!=null){
                     game.stop();}
-                    if(Server.t.isAlive()){
+                    if(Server.t!=null){
                         Server.t.interrupt();
                     }
+//                    AI.progressBar.setVisible(false);
                     all.setVisible(false);
                     MainMenu.setVisible(true);
                 });
@@ -501,6 +506,9 @@ public class View {
                 rs.setBounds(580, 280, 100, 35);
                 rs.setBackground(new Color(255, 255, 255));
                 all.add(rs);
+//                AI.progressBar.setBounds(450,60,100,20);
+//                all.add(AI.progressBar);
+//                AI.progressBar.setVisible(false);
 
 
                 c.addActionListener(e -> {
@@ -538,7 +546,9 @@ public class View {
 
                 all.setBounds(320, 180, 1037, 583);
                 all.setVisible(false);
+
                 frame.add(all);
+
             });
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);

@@ -114,6 +114,11 @@ public class SaveLoad {
                 }
                 Full.add(F);
             }
+            if(Full.size()%2!=0){
+                JOptionPane.showMessageDialog(null, "棋盘读取失败！请检查棋子回合数是否符合要求(104)", "加载失败", JOptionPane.WARNING_MESSAGE);
+                Start.k = 1;
+                throw new Exception("棋盘读取失败！请检查棋子回合数是否符合要求(104)");
+            }
             int[][] board1 = Full.get(Full.size()/2-2);
                 int[][] board2 = Full.get(Full.size()/2-1);
                 int[][] state1 = Full.get(Full.size()-2);
@@ -136,10 +141,10 @@ public class SaveLoad {
     }
 
     public static void saveU(ArrayList<String> U) {
-        File ofile = new File(("src\\User\\User.txt"));
+        File ofile = new File(("D:\\Project\\User\\User.txt"));
         ofile.delete();
         try {
-            File file = new File(("src\\User\\User.txt"));
+            File file = new File(("D:\\Project\\User\\User.txt"));
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -159,7 +164,7 @@ public class SaveLoad {
         BufferedReader bufferedReader = null;
         ArrayList<String> U = new ArrayList<>();
         try {
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("src\\User\\User.txt")));
+            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("D:\\Project\\User\\User.txt")));
             bufferedReader = new BufferedReader(inputStreamReader);
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
@@ -175,10 +180,10 @@ public class SaveLoad {
     }
 
     public static void saveP(ArrayList<String> P) {
-        File ofile = new File(("src\\User\\Password.txt"));
+        File ofile = new File(("D:\\Project\\User\\Password.txt"));
         ofile.delete();
         try {
-            File file = new File(("src\\User\\Password.txt"));
+            File file = new File(("D:\\Project\\User\\Password.txt"));
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -198,7 +203,7 @@ public class SaveLoad {
         BufferedReader bufferedReader = null;
         ArrayList<String> P = new ArrayList<>();
         try {
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("src\\User\\Password.txt")));
+            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("D:\\Project\\User\\Password.txt")));
             bufferedReader = new BufferedReader(inputStreamReader);
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
@@ -214,10 +219,10 @@ public class SaveLoad {
     }
 
     public static void saveW(ArrayList<Double> W) {
-        File ofile = new File(("src\\User\\Winning.txt"));
+        File ofile = new File(("D:\\Project\\User\\Winning.txt"));
         ofile.delete();
         try {
-            File file = new File(("src\\User\\Winning.txt"));
+            File file = new File(("D:\\Project\\User\\Winning.txt"));
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -237,7 +242,7 @@ public class SaveLoad {
         BufferedReader bufferedReader = null;
         ArrayList<Double> W = new ArrayList<>();
         try {
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("src\\User\\Winning.txt")));
+            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("D:\\Project\\User\\Winning.txt")));
             bufferedReader = new BufferedReader(inputStreamReader);
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
@@ -253,10 +258,10 @@ public class SaveLoad {
     }
 
     public static void saveN(ArrayList<Integer> N) {
-        File ofile = new File(("src\\User\\Number.txt"));
+        File ofile = new File(("D:\\Project\\User\\Number.txt"));
         ofile.delete();
         try {
-            File file = new File(("src\\User\\Number.txt"));
+            File file = new File(("D:\\Project\\User\\Number.txt"));
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -276,7 +281,7 @@ public class SaveLoad {
         BufferedReader bufferedReader = null;
         ArrayList<Integer> N = new ArrayList<>();
         try {
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("src\\User\\Number.txt")));
+            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("D:\\Project\\User\\Number.txt")));
             bufferedReader = new BufferedReader(inputStreamReader);
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
